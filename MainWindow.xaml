@@ -1,0 +1,63 @@
+﻿<Window x:Class="Amnista.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        xmlns:local="clr-namespace:Amnista"
+        xmlns:local1="clr-namespace:Amnista.Views.Data"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    
+    <Grid>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+
+
+        <ScrollViewer>
+           <ui:SimpleStackPanel
+                    x:Name="Control1"
+                    VerticalAlignment="Top"
+                    Orientation="Vertical">
+
+                <DockPanel>
+                        <ui:ListView
+                x:Name="PagesList"
+                DockPanel.Dock="Top"
+                DisplayMemberPath="Title"
+                SelectedValuePath="PageType"
+                SelectedIndex="0"
+                SelectionChanged="PagesList_SelectionChanged">
+                           
+                <ui:ListView.ItemsSource>
+                    <local1:ControlPagesData />
+                </ui:ListView.ItemsSource>
+                </ui:ListView>
+                </DockPanel>
+               
+         
+      
+            
+           
+                </ui:SimpleStackPanel>
+        </ScrollViewer>
+
+
+
+
+        <Frame Grid.Column="1" x:Name="MainFrame" Navigated="MainFrame_Navigated" NavigationUIVisibility="Hidden"></Frame>
+      
+
+    </Grid>
+
+  
+</Window>
