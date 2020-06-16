@@ -10,5 +10,7 @@
 
     <Grid>
         <TextBlock>ClientProfileView</TextBlock>
+            <CheckBox Content="Sugar" HorizontalAlignment="Left" Margin="400,204,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="Milk" HorizontalAlignment="Left" Margin="500,204,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Page>
