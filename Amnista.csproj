@@ -96,6 +96,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data Types\Enums\DrinkType.cs" />
+    <Compile Include="Data Types\Enums\Status.cs" />
+    <Compile Include="Models\ClientProfile.cs" />
+    <Compile Include="Models\ClientSocket.cs" />
+    <Compile Include="Models\CoffeeMachine.cs" />
+    <Compile Include="Models\CoffeeVote.cs" />
+    <Compile Include="Models\DrinkPreference.cs" />
+    <Compile Include="Models\Settings.cs" />
+    <Compile Include="Models\SideBar.cs" />
+    <Compile Include="Models\SocketState.cs" />
+    <Compile Include="Models\WheelOfFortune.cs" />
+    <Compile Include="View Models\ClientProfileViewModel.cs" />
+    <Compile Include="View Models\CoffeeMachineModeViewModel.cs" />
+    <Compile Include="View Models\CoffeeVoteViewModel.cs" />
+    <Compile Include="View Models\HomeViewModel.cs" />
+    <Compile Include="View Models\SettingsViewModel.cs" />
+    <Compile Include="View Models\WheelOfFortuneViewModel.cs" />
     <Compile Include="Views\ClientProfileView.xaml.cs">
       <DependentUpon>ClientProfileView.xaml</DependentUpon>
     </Compile>
@@ -180,11 +197,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data Types\Enums\" />
-    <Folder Include="Models\" />
-    <Folder Include="View Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
