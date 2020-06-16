@@ -9,7 +9,7 @@
       Title="CoffeeVoteView">
 
     <Grid>
-        <Button Content="Start coffe poll" HorizontalAlignment="Left" Margin="351,181,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Start coffee poll" HorizontalAlignment="Left" Margin="351,181,0,0" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </Page>
