@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Amnista.Models;
 
 namespace Amnista
 {
@@ -28,6 +29,7 @@ namespace Amnista
         {
             InitializeComponent();
             this.MainFrame.Navigate(new HomeView());
+            
         }
 
 
@@ -39,20 +41,16 @@ namespace Amnista
 
         private void Btn_mode_switch_Click(object sender, RoutedEventArgs e)
         {
-
             this.MainFrame.Navigate(new CoffeeMachineModeView());
-
         }
 
         private void Btn_toggle_availability_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void Btn_settings_Click(object sender, RoutedEventArgs e)
         {
             this.MainFrame.Navigate(new SettingsView());
-
         }
 
 
@@ -62,7 +60,6 @@ namespace Amnista
             {
                 NavigateToSelectedPage();
             }
-
         }
 
         private void NavigateToSelectedPage()
