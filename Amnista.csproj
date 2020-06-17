@@ -23,7 +23,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -40,6 +40,28 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
@@ -98,15 +120,19 @@
     </ApplicationDefinition>
     <Compile Include="Data Types\Enums\DrinkType.cs" />
     <Compile Include="Data Types\Enums\Status.cs" />
+    <Compile Include="Generic\Commander.cs" />
+    <Compile Include="Generic\ObservableObject.cs" />
     <Compile Include="Models\ClientProfile.cs" />
     <Compile Include="Models\ClientSocket.cs" />
     <Compile Include="Models\CoffeeMachine.cs" />
     <Compile Include="Models\CoffeeVote.cs" />
     <Compile Include="Models\DrinkPreference.cs" />
+    <Compile Include="Models\Server.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\SideBar.cs" />
     <Compile Include="Models\SocketState.cs" />
     <Compile Include="Models\WheelOfFortune.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="View Models\ClientProfileViewModel.cs" />
     <Compile Include="View Models\CoffeeMachineModeViewModel.cs" />
     <Compile Include="View Models\CoffeeVoteViewModel.cs" />
