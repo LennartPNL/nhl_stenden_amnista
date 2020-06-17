@@ -120,8 +120,12 @@
     </ApplicationDefinition>
     <Compile Include="Data Types\Enums\DrinkType.cs" />
     <Compile Include="Data Types\Enums\Status.cs" />
+    <Compile Include="Events\ClientDisconnectedEventArgs.cs" />
+    <Compile Include="Events\ClientMessageReceivedEventArgs.cs" />
+    <Compile Include="Events\ClientConnectedEventArgs.cs" />
     <Compile Include="Generic\Commander.cs" />
     <Compile Include="Generic\ObservableObject.cs" />
+    <Compile Include="Generic\SocketService.cs" />
     <Compile Include="Models\ClientProfile.cs" />
     <Compile Include="Models\ClientSocket.cs" />
     <Compile Include="Models\CoffeeMachine.cs" />
