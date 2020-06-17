@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Amnista.Models;
 
 namespace Amnista.Views
 {
@@ -27,7 +29,12 @@ namespace Amnista.Views
 
         private void Btn_coffee_vote_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: make this go to the coffee vote page
+          
+        }
+
+        private void test()
+        {
+            
         }
     }
 }
