@@ -1,6 +1,6 @@
 ﻿namespace Amnista.Data_Types.Enums
 {
-    enum Status
+    public enum Status
     {
         AVAILABLE,
         BUSY,

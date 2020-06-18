@@ -28,7 +28,7 @@ namespace Amnista
         public MainWindow()
         {
             InitializeComponent();
-            this.MainFrame.Navigate(new HomeView());
+            this.MainFrame.Navigate(new HomeView(this));
             
         }
 

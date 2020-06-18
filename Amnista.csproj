@@ -123,6 +123,7 @@
     <Compile Include="Generic\Commander.cs" />
     <Compile Include="Generic\ObservableObject.cs" />
     <Compile Include="Models\ClientProfile.cs" />
+    <Compile Include="Models\ClientProfileManager.cs" />
     <Compile Include="Models\ClientSocket.cs" />
     <Compile Include="Models\CoffeeMachine.cs" />
     <Compile Include="Models\CoffeeVote.cs" />
