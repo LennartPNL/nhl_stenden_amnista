@@ -29,7 +29,7 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="{Binding ServerResponse}"></TextBlock>
+        <TextBlock Text="{Binding ServerResponse}" Grid.ColumnSpan="4" Grid.RowSpan="2"></TextBlock>
         <Button Grid.Row="2" Grid.Column="2" Command="{Binding StartServerCommand}">Start server</Button>
     </Grid>
 </Page>
