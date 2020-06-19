@@ -3,14 +3,65 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:Amnista.Views"
+      xmlns:vm="clr-namespace:Amnista.View_Models"
+      xmlns:System="clr-namespace:System;assembly=mscorlib"
+      xmlns:enumImport="clr-namespace:Amnista.Data_Types.Enums"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ClientProfileView">
+        <Page.DataContext>
+            <vm:ClientProfileViewModel/>
+        </Page.DataContext>
+    <Page.Resources>
+        <ObjectDataProvider x:Key="DataFromDrinkType" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enumImport:DrinkType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="DataFromStatus" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enumImport:Status"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Page.Resources>
 
     <Grid>
-        <TextBlock>ClientProfileView</TextBlock>
-            <CheckBox Content="Sugar" HorizontalAlignment="Left" Margin="400,204,0,0" VerticalAlignment="Top"/>
-        <CheckBox Content="Milk" HorizontalAlignment="Left" Margin="500,204,0,0" VerticalAlignment="Top"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="2">
+            <Run Text="Coffee points: "/>
+            <Run Text="{Binding CoffeePoints}"/>
+        </TextBlock>
+
+        <TextBox Grid.Row="2" Grid.Column="0" Text="{Binding Name}"/>
+        <CheckBox Grid.Row="2" Grid.Column="1" Content="Sugar" IsChecked="{Binding WithSugar}"/>
+        <CheckBox Grid.Row="2" Grid.Column="2" Content="Milk" IsChecked="{Binding WithMilk}" />
+
+        <ComboBox Grid.Row="2" Grid.Column="3"
+                  ItemsSource="{Binding Source={StaticResource DataFromDrinkType}}"
+                  SelectedItem="{Binding DrinkType}">
+        </ComboBox>
+
+        <ComboBox Grid.Row="0" Grid.Column="4"
+                  ItemsSource="{Binding Source={StaticResource DataFromStatus}}"
+                  SelectedItem="{Binding Status}">
+        </ComboBox>
+
+        <Button Grid.Row="2" Grid.Column="4" Command="{Binding SaveProfileCommand}" Content="Save"/>
     </Grid>
 </Page>
