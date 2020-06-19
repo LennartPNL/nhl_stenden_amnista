@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Amnista.Annotations;
 using Amnista.Events;
 using Amnista.Generic;
@@ -57,6 +58,18 @@ namespace Amnista.Models
 
         private void SocketServiceOnStartVoteReceived(object sender, StartVoteReceivedEventArgs e)
         {
+            if (!_voteManager.VoteHasStarted)
+            {
+                _serverProfileManager.Profiles.ForEach(client =>
+                {
+                    client.Socket.Send(
+                        // e.Client.RemoteEndPoint) + started a vote
+                        Encoding.ASCII.GetBytes(
+                            _serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint).Name +
+                            " started a vote!"));
+                });
+            }
+
             _voteManager.Vote(_serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint));
             ServerResponse = _serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint).Socket.RemoteEndPoint
                 .ToString();

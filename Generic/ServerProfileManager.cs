@@ -15,7 +15,6 @@ namespace Amnista.Generic
         public List<ClientProfile> Profiles { get => _clientProfiles; }
 
 
-
         public void AddProfile(ClientProfile clientProfile)
         {
             _clientProfiles.Add(clientProfile);

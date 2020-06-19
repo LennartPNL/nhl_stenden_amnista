@@ -143,6 +143,7 @@
     <Compile Include="Events\ClientMessageReceivedEventArgs.cs" />
     <Compile Include="Events\ClientConnectedEventArgs.cs" />
     <Compile Include="Events\ClientUpdateReceivedEventArgs.cs" />
+    <Compile Include="Events\VoteEndedEventArgs.cs" />
     <Compile Include="Generic\ServerProfileManager.cs" />
     <Compile Include="Generic\Commander.cs" />
     <Compile Include="Generic\ObservableObject.cs" />
