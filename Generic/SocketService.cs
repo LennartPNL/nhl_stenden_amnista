@@ -8,7 +8,6 @@ using System.Threading;
 using Amnista.Events;
 using Amnista.Generic.Server;
 using Amnista.Models;
-using Json.Net;
 using Newtonsoft.Json;
 
 namespace Amnista.Generic
@@ -104,19 +103,18 @@ namespace Amnista.Generic
                         ClientProfile clientProfile = JsonConvert.DeserializeObject<ClientProfile>(message);
                         UpdateReceivedEvent(new ClientUpdateReceivedEventArgs(client, clientProfile));
                         break;
+                    case "start_vote":
+                        StartVoteReceivedEvent(new StartVoteReceivedEventArgs(client));
+                        break;
                     default:
                         MessageReceivedEvent(new ClientMessageReceivedEventArgs(client, message));
                         break;
                 }
-                
-                    
-         
             }
         }
 
         protected virtual void ClientConnectedEvent(ClientConnectedEventArgs e)
         {
-
             EventHandler<ClientConnectedEventArgs> handler = ClientConnected;
             handler?.Invoke(this, e);
         }
@@ -124,6 +122,12 @@ namespace Amnista.Generic
         protected virtual void MessageReceivedEvent(ClientMessageReceivedEventArgs e)
         {
             EventHandler<ClientMessageReceivedEventArgs> handler = MessageReceived;
+            handler?.Invoke(this, e);
+        }
+
+        protected virtual void StartVoteReceivedEvent(StartVoteReceivedEventArgs e)
+        {
+            EventHandler<StartVoteReceivedEventArgs> handler = StartVoteReceived;
             handler?.Invoke(this, e);
         }
 
@@ -141,6 +145,7 @@ namespace Amnista.Generic
 
         public event EventHandler<ClientConnectedEventArgs> ClientConnected;
         public event EventHandler<ClientMessageReceivedEventArgs> MessageReceived;
+        public event EventHandler<StartVoteReceivedEventArgs> StartVoteReceived;
         public event EventHandler<ClientUpdateReceivedEventArgs> UpdateReceived;
         public event EventHandler<ClientDisconnectedEventArgs> ClientDisconnected;
     }

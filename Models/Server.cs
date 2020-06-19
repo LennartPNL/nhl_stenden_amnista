@@ -9,9 +9,25 @@ namespace Amnista.Models
     public class Server : INotifyPropertyChanged
     {
         private readonly SocketService _socketService;
+        private readonly VoteManager _voteManager = new VoteManager();
         private readonly ServerProfileManager _serverProfileManager;
+        private bool _started = false;
+
+        public bool Started
+        {
+            get => _started;
+            set
+            {
+                _started = value;
+                OnPropertyChanged(nameof(Started));
+            }
+        }
+
+        public int ClientProfilesDidVote => _voteManager.ClientProfilesDidVote;
+
 
         private string _serverResponse = "";
+
         public string ServerResponse
         {
             get => _serverResponse;
@@ -22,6 +38,11 @@ namespace Amnista.Models
             }
         }
 
+        public ServerProfileManager ServerProfileManager
+        {
+            get => _serverProfileManager;
+        }
+
         public Server()
         {
             _serverProfileManager = new ServerProfileManager();
@@ -30,20 +51,46 @@ namespace Amnista.Models
             _socketService.MessageReceived += SocketServiceOnMessageReceived;
             _socketService.UpdateReceived += SocketServiceOnUpdateReceived;
             _socketService.ClientDisconnected += SocketServiceOnClientDisconnected;
+            _socketService.StartVoteReceived += SocketServiceOnStartVoteReceived;
+            _serverProfileManager.PropertyChanged += ServerProfileManagerOnPropertyChanged;
         }
 
-  
+        private void SocketServiceOnStartVoteReceived(object sender, StartVoteReceivedEventArgs e)
+        {
+            _voteManager.Vote(_serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint));
+            ServerResponse = _serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint).Socket.RemoteEndPoint
+                .ToString();
+            OnPropertyChanged(nameof(ServerResponse));
+            OnPropertyChanged(nameof(ClientProfilesDidVote));
+        }
+
+        private void ServerProfileManagerOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Profiles")
+            {
+                OnPropertyChanged("Profiles");
+            }
+        }
+
 
         public void Start()
         {
+            Started = true;
             _socketService.Start();
+        }
+
+        public void Stop()
+        {
+            Started = false;
+            _socketService.Stop();
         }
 
         private void SocketServiceOnClientDisconnected(object sender, ClientDisconnectedEventArgs e)
         {
             ClientProfile clientProfile = _serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint);
             _serverProfileManager.DeleteProfile(clientProfile);
-            ServerResponse = e.Client.RemoteEndPoint + " disconnected \n conns: " + _serverProfileManager.Profiles.Count;
+            ServerResponse = e.Client.RemoteEndPoint + " disconnected \n conns: " +
+                             _serverProfileManager.Profiles.Count;
         }
 
         private void SocketServiceOnMessageReceived(object sender, ClientMessageReceivedEventArgs e)
@@ -73,7 +120,7 @@ namespace Amnista.Models
             ClientProfile clientProfile = new ClientProfile();
             clientProfile.Socket = e.Client;
             _serverProfileManager.AddProfile(clientProfile);
-            ServerResponse =_serverProfileManager.Profiles.Count + " \n stay Connected";
+            OnPropertyChanged("ClientsOnline");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
