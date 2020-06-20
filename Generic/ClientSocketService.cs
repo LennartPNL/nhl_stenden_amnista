@@ -24,7 +24,7 @@ namespace Amnista.Models
         public void StartClient()
         {
             // TODO: This needs to come from the settings page
-            IPEndPoint serverEp = new IPEndPoint(IPAddress.Parse("192.168.1.5"), 11000);
+            IPEndPoint serverEp = new IPEndPoint(IPAddress.Parse("192.168.1.170"), 11000);
 
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             server.ReceiveTimeout = -1;

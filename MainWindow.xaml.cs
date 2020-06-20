@@ -45,7 +45,7 @@ namespace Amnista
                 {
 
                     _clientSocket.SendCommand("start_vote", new StartVoteCommand());
-                    // this.MainFrame.Navigate(new WheelOfFortuneView());
+                    this.MainFrame.Navigate(new WheelOfFortuneView(_clientSocket));
                 }
 
             });

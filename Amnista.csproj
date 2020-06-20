@@ -139,6 +139,7 @@
     <Compile Include="Data Types\Enums\DrinkType.cs" />
     <Compile Include="Data Types\Enums\Status.cs" />
     <Compile Include="Events\client\VoteStartedEventArgs.cs" />
+    <Compile Include="Events\client\WheelOfFortuneUpdatedEventArgs.cs" />
     <Compile Include="Events\server\ClientVoteReceivedEventArgs.cs" />
     <Compile Include="Events\VoteReceivedEventArgs.cs" />
     <Compile Include="Events\server\ClientDisconnectedEventArgs.cs" />

@@ -1,24 +1,25 @@
-﻿using Amnista.Generic;
+﻿using Amnista.Events.client;
+using Amnista.Generic;
 using Amnista.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Timers;
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Input;
-using Timer = System.Timers.Timer;
 
 namespace Amnista.View_Models
 {
     class WheelOfFortuneViewModel : ObservableObject
     {
         private readonly WheelOfFortune _wheelOfFortune;
-        private Timer timer;
-        private const int interval = 200;
-        private int rotationNr = 0;
         private string _winnerImg;
+
+        public ClientSocket ClientSocket
+        {
+            get { return _wheelOfFortune.ClientSocket; }
+            set
+            {
+                _wheelOfFortune.ClientSocket = value;
+                OnPropertyChanged(nameof(ClientSocket));
+            }
+        }
 
         public List<ClientProfile> ClientProfiles
         {
@@ -53,35 +54,18 @@ namespace Amnista.View_Models
         public WheelOfFortuneViewModel()
         {
             _wheelOfFortune = new WheelOfFortune();
+            _wheelOfFortune.VoteEnded += _wheelOfFortune_VoteEnded;
+            _wheelOfFortune.WheelUpdated += _wheelOfFortune_WheelUpdated;
             WinnerImg = "pack://siteoforigin:,,,/Resources/and-the-winner-is1170px.jpg";
         }
 
-        public ICommand LoadedCommand => new Commander(Spin);
-
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void _wheelOfFortune_WheelUpdated(object sender, WheelOfFortuneUpdatedEventArgs e)
         {
-            timer.Stop();
-
-            if (++rotationNr == ClientProfiles.Count)
-            {
-                rotationNr = 0;
-            }
-            Winner = ClientProfiles[rotationNr];
-
-            timer.Enabled = true;
+            Winner = e.ClientProfile;
         }
 
-        public void Spin()
+        private void _wheelOfFortune_VoteEnded(object sender, EventArgs e)
         {
-            timer = new Timer(interval);
-            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            timer.Enabled = true;
-        }
-
-        public void Stop(ClientProfile winner)
-        {
-            timer.Stop();
-            Winner = winner;
             WinnerImg = "pack://siteoforigin:,,,/Resources/tcFo7yK.png";
         }
     }
