@@ -9,20 +9,20 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ClientProfileView">
-    <Page.DataContext>
-        <vm:ClientProfileViewModel />
-    </Page.DataContext>
+        <Page.DataContext>
+            <vm:ClientProfileViewModel/>
+        </Page.DataContext>
     <Page.Resources>
         <ObjectDataProvider x:Key="DataFromDrinkType" MethodName="GetValues"
                             ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="enumImport:DrinkType" />
+                <x:Type TypeName="enumImport:DrinkType"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider x:Key="DataFromStatus" MethodName="GetValues"
                             ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="enumImport:Status" />
+                <x:Type TypeName="enumImport:Status"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Page.Resources>
@@ -43,121 +43,30 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="0.2*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0">
+            <Run Text="Coffee points: "/>
+            <Run Text="{Binding CoffeePoints}"/>
+        </TextBlock>
 
-            <TextBlock Grid.Row="1" Grid.Column="1">
-                <Run Text="Coffee points: " />
-                <Run Text="{Binding CoffeePoints}" />
-            </TextBlock>
+        <TextBlock Grid.Row="0" Grid.Column="4">
+            <Run Text="Users online: "/>
+            <Run Text="{Binding OnlineUsers}"/>
+        </TextBlock>
 
-        </Grid>
+        <TextBox Grid.Row="2" Grid.Column="0" Text="{Binding Name}"/>
+        <CheckBox Grid.Row="2" Grid.Column="1" Content="Sugar" IsChecked="{Binding WithSugar}"/>
+        <CheckBox Grid.Row="2" Grid.Column="2" Content="Milk" IsChecked="{Binding WithMilk}" />
 
-        <Grid Grid.Row="0" Grid.Column="4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="0.2*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
+        <ComboBox Grid.Row="2" Grid.Column="3"
+                  ItemsSource="{Binding Source={StaticResource DataFromDrinkType}}"
+                  SelectedItem="{Binding DrinkType}">
+        </ComboBox>
 
-            <TextBlock Grid.Row="1" Grid.Column="1">
-                <Run Text="Users online: " />
-                <Run Text="{Binding OnlineUsers}" />
-            </TextBlock>
-        </Grid>
+        <ComboBox Grid.Row="1" Grid.Column="4"
+                  ItemsSource="{Binding Source={StaticResource DataFromStatus}}"
+                  SelectedItem="{Binding Status}">
+        </ComboBox>
 
-        <Grid Grid.Row="2" Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="0.1*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="Name: " VerticalAlignment="Bottom" FontSize="14" />
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" />
-
-        </Grid>
-
-        <Grid Grid.Row="2" Grid.Column="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="0.05*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-
-            <CheckBox Grid.Row="1" Grid.Column="0" Content="Sugar" IsChecked="{Binding WithSugar}" />
-            <CheckBox Grid.Row="1" Grid.Column="2" Content="Milk" IsChecked="{Binding WithMilk}" />
-
-        </Grid>
-
-        <Grid Grid.Row="2" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="0.2*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-            <ComboBox Grid.Row="1" Grid.Column="1"
-                      ItemsSource="{Binding Source={StaticResource DataFromDrinkType}}"
-                      SelectedItem="{Binding DrinkType}" />
-        </Grid>
-
-        <Grid Grid.Row="1" Grid.Column="4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="0.2*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-            <ComboBox Grid.Row="1" Grid.Column="1"
-                      ItemsSource="{Binding Source={StaticResource DataFromStatus}}"
-                      SelectedItem="{Binding Status}" />
-        </Grid>
-
-        <Grid Grid.Row="2" Grid.Column="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="0.2*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-            <Button Grid.Row="1" Grid.Column="1" Command="{Binding SaveProfileCommand}" Content="Save" />
-        </Grid>
+        <Button Grid.Row="2" Grid.Column="4" Command="{Binding SaveProfileCommand}" Content="Save"/>
     </Grid>
 </Page>

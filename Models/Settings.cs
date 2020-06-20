@@ -2,6 +2,5 @@
 {
     class Settings
     {
-        public string ServerIp { get; set; }
     }
 }
