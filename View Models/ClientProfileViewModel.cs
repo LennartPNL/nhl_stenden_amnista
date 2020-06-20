@@ -12,13 +12,13 @@ namespace Amnista.View_Models
         /// <summary>
         /// Fields
         /// </summary>
-        private ClientProfile _clientProfile;
-        private string _name;
-        private Status _status;
-        private DrinkType _drinkType;
-        private bool _withMilk;
-        private bool _withSugar;
-        private int _coffeePoints;
+        private readonly ClientProfile _clientProfile;
+        private string _name = Properties.Settings.Default.user_name;
+        private Status _status = ParseEnum<Status>(Properties.Settings.Default.user_status);
+        private DrinkType _drinkType = ParseEnum<DrinkType>(Properties.Settings.Default.user_drinktype);
+        private bool _withMilk = Properties.Settings.Default.user_withmilk;
+        private bool _withSugar = Properties.Settings.Default.user_withsugar;
+        private int _coffeePoints = Properties.Settings.Default.user_coffeePoints;
 
         /// <summary>
         /// Constructor
@@ -88,7 +88,18 @@ namespace Amnista.View_Models
                 OnPropertyChanged(nameof(CoffeePoints));
             }
         }
-        
+
+        /// <summary>
+        /// Helper class for converting string to Enum
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static T ParseEnum<T>(string value)
+        {
+            return (T)Enum.Parse(typeof(T), value, ignoreCase: true);
+        }
+
         /// <summary>
         /// Methods
         /// </summary>
@@ -106,8 +117,8 @@ namespace Amnista.View_Models
             Properties.Settings.Default.user_name = _name;
             Properties.Settings.Default.user_status = _status.ToString();
             Properties.Settings.Default.user_drinktype = _drinkType.ToString();
-            Properties.Settings.Default.user_withmilk = _withMilk.ToString();
-            Properties.Settings.Default.user_withsugar = _withSugar.ToString();
+            Properties.Settings.Default.user_withmilk = _withMilk;
+            Properties.Settings.Default.user_withsugar = _withSugar;
             Properties.Settings.Default.user_coffeePoints = _coffeePoints;
             Properties.Settings.Default.Save();
         }

@@ -11,14 +11,14 @@
     <Setting Name="user_drinktype" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="user_withmilk" Type="System.String" Scope="User">
+    <Setting Name="user_withmilk" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="user_withsugar" Type="System.String" Scope="User">
+    <Setting Name="user_withsugar" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="user_coffeePoints" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

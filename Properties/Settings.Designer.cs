@@ -61,10 +61,9 @@ namespace Amnista.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string user_withmilk {
+        public bool user_withmilk {
             get {
-                return ((string)(this["user_withmilk"]));
+                return ((bool)(this["user_withmilk"]));
             }
             set {
                 this["user_withmilk"] = value;
@@ -73,10 +72,9 @@ namespace Amnista.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string user_withsugar {
+        public bool user_withsugar {
             get {
-                return ((string)(this["user_withsugar"]));
+                return ((bool)(this["user_withsugar"]));
             }
             set {
                 this["user_withsugar"] = value;
@@ -85,7 +83,6 @@ namespace Amnista.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int user_coffeePoints {
             get {
                 return ((int)(this["user_coffeePoints"]));
