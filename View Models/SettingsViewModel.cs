@@ -19,7 +19,7 @@ namespace Amnista.View_Models
         }
         public string ServerIp
         {
-            get => _serverIp;
+            get => Properties.Settings.Default.server_ip == null ? "" : _serverIp;
             set
             {
                 _serverIp = value;
@@ -30,7 +30,6 @@ namespace Amnista.View_Models
 
         public void SaveSettings()
         {
-            Console.WriteLine(Properties.Settings.Default.server_ip);
             _settings.ServerIp = _serverIp;
             
             Properties.Settings.Default.server_ip = _serverIp;
