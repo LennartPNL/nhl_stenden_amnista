@@ -17,8 +17,6 @@ namespace Amnista.View_Models
         private string _resultText;
         private Timer timer;
         private const int interval = 200;
-        private const int totalTime = 5000;
-        private int elapsedTime = 0;
         private int rotationNr = 0;
 
         public ClientProfileManager ClientProfileManager
@@ -60,27 +58,16 @@ namespace Amnista.View_Models
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            List<ClientProfile> profiles = _wheelOfFortune.ClientProfileManager.ClientProfiles;
+            List<ClientProfile> profiles = ClientProfileManager.ClientProfiles;
             timer.Stop();
-            if(elapsedTime > totalTime)
-            {
-                Random random = new Random();
-                int i = random.Next(profiles.Count);
-                ResultText = profiles[i].Name;
-                return;
-            }
-            else
-            {
-                if (++rotationNr == profiles.Count)
-                {
-                    rotationNr = 0;
-                }
-                Winner = profiles[rotationNr];
-                ResultText = Winner.Name;
 
-                timer.Enabled = true;
+            if (++rotationNr == profiles.Count)
+            {
+                rotationNr = 0;
             }
-            elapsedTime += interval;
+            ResultText = profiles[rotationNr].Name;
+
+            timer.Enabled = true;
         }
 
         public void Spin()
@@ -88,6 +75,12 @@ namespace Amnista.View_Models
             timer = new Timer(interval);
             timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             timer.Enabled = true;
+        }
+
+        public void Stop(ClientProfile winner)
+        {
+            timer.Stop();
+            Winner = winner;
         }
     }
 }

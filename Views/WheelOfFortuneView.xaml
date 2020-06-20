@@ -30,6 +30,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <Label Name="ResultLabel" Content="{Binding ResultText}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1"/>
+        <Image Grid.Column="1" Grid.Row="0" Source="pack://siteoforigin:,,,/Resources/and-the-winner-is1170px.jpg"/>
+        <Image Grid.Column="1" Grid.Row="1" Source="/Amnista;component/Resources/text-frame-png-14.png"   />
+        <Label Name="ResultLabel" Content="{Binding ResultText}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1" FontSize="20" FontWeight="Bold"/>
     </Grid>
 </Page>
