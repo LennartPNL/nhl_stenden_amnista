@@ -25,7 +25,6 @@ namespace Amnista.Models
             set
             {
                 _clientSocket = value;
-                _clientSocket.VoteReceived += _clientSocket_VoteReceived;
                 _clientSocket.VoteEnded += _clientSocket_VoteEnded;
             } 
         }
@@ -34,7 +33,10 @@ namespace Amnista.Models
         {
 
             ClientProfiles = new List<ClientProfile>();
-            Spin();
+            Winner = new ClientProfile
+            {
+                Name = "Waiting..."
+            };
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
@@ -61,16 +63,15 @@ namespace Amnista.Models
         {
             timer.Stop();
             Winner = winner;
-        }
-
-        private void _clientSocket_VoteReceived(object sender, Events.ClientVoteReceivedEventArgs e)
-        {
-            ClientProfiles.Add(e.Client);
+            SpinnerEndedEvent();
         }
 
         private void _clientSocket_VoteEnded(object sender, Events.VoteEndedEventArgs e)
         {
-            Stop(e.ClientProfile);
+            ClientProfiles.AddRange(e.Clients);
+            Spin();
+            System.Threading.Thread.Sleep(5000);
+            Stop(e.Winner);
         }
 
         protected virtual void SpinnerEndedEvent()
