@@ -28,13 +28,8 @@ namespace Amnista
             this.MainFrame.Navigate(new HomeView(this), _clientSocket);
             _clientSocket.VoteStarted += ClientSocketOnVoteStarted;
             _clientSocket.VoteReceived += ClientSocketOnVoteReceived;
-            _clientSocket.VoteEnded += ClientSocketOnVoteEnded;
         }
 
-        private void ClientSocketOnVoteEnded(object sender, VoteEndedEventArgs e)
-        {
-            MessageBox.Show(e.ClientProfile.Name + " needs to get the coffee");
-        }
 
         private void ClientSocketOnVoteStarted(object sender, VoteStartedEventArgs e)
         {
@@ -57,27 +52,6 @@ namespace Amnista
             Debug.WriteLine("Client " + e.Client.Name + " voted");
         }
 
-
-        private void Btn_profile_Click(object sender, RoutedEventArgs e)
-        {
-            this.MainFrame.Navigate(new ClientProfileView());
-        }
-
-        private void Btn_mode_switch_Click(object sender, RoutedEventArgs e)
-        {
-            this.MainFrame.Navigate(new CoffeeMachineModeView());
-        }
-
-        private void Btn_toggle_availability_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void Btn_settings_Click(object sender, RoutedEventArgs e)
-        {
-            this.MainFrame.Navigate(new SettingsView());
-        }
-
-
         private void PagesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!_disableSidebarNavigation)
@@ -99,11 +73,6 @@ namespace Amnista
             _disableSidebarNavigation = true;
             PagesList.SelectedValue = this.MainFrame.Content;
             _disableSidebarNavigation = false;
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            _clientSocket.Vote();
         }
     }
 }

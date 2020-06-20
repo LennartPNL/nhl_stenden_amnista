@@ -117,7 +117,11 @@ namespace Amnista.Generic
                         break;
                     case "end_vote":
                         VoteEndedCommand voteEndedClient = JsonConvert.DeserializeObject<VoteEndedCommand>(message);
-                        VoteEndedEventArgsEvent(new VoteEndedEventArgs(voteEndedClient.Winner));
+                        VoteEndedEvent(new VoteEndedEventArgs(voteEndedClient.Winner)
+                        {
+                            Winner = voteEndedClient.Winner,
+                            Clients = voteEndedClient.Clients
+                        });
                         break;
                     default:
                         MessageReceivedEvent(new ClientMessageReceivedEventArgs(client, message));
@@ -156,7 +160,7 @@ namespace Amnista.Generic
             handler?.Invoke(this, e);
         }
 
-        protected virtual void VoteEndedEventArgsEvent(VoteEndedEventArgs e)
+        protected virtual void VoteEndedEvent(VoteEndedEventArgs e)
         {
             EventHandler<VoteEndedEventArgs> handler = VoteEnded;
             handler?.Invoke(this, e);
