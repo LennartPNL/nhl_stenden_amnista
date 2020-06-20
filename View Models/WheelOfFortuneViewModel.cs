@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Timers;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using Timer = System.Timers.Timer;
@@ -18,6 +19,7 @@ namespace Amnista.View_Models
         private Timer timer;
         private const int interval = 200;
         private int rotationNr = 0;
+        private string _winnerImg;
 
         public ClientProfileManager ClientProfileManager
         {
@@ -49,9 +51,20 @@ namespace Amnista.View_Models
             }
         }
 
+        public string WinnerImg
+        {
+            get { return _winnerImg; }
+            set
+            {
+                _winnerImg = value;
+                OnPropertyChanged(nameof(WinnerImg));
+            }
+        }
+
         public WheelOfFortuneViewModel()
         {
             _wheelOfFortune = new WheelOfFortune();
+            WinnerImg = "pack://siteoforigin:,,,/Resources/and-the-winner-is1170px.jpg";
         }
 
         public ICommand LoadedCommand => new Commander(Spin);
@@ -81,6 +94,7 @@ namespace Amnista.View_Models
         {
             timer.Stop();
             Winner = winner;
+            WinnerImg = "pack://siteoforigin:,,,/Resources/tcFo7yK.png";
         }
     }
 }

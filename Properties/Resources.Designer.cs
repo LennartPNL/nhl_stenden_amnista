@@ -73,6 +73,16 @@ namespace Amnista.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap tcFo7yK {
+            get {
+                object obj = ResourceManager.GetObject("tcFo7yK", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap text_frame_png_14 {
             get {
                 object obj = ResourceManager.GetObject("text_frame_png_14", resourceCulture);
