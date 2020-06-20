@@ -123,7 +123,7 @@ namespace Amnista.View_Models
         public void SaveProfile()
         {
             _clientProfile.Name = _name;
-            _clientProfile.status = _status;
+            _clientProfile.Status = _status;
             _clientProfile.DrinkPreference.DrinkType = _drinkType;
             _clientProfile.DrinkPreference.WithMilk = _withMilk;
             _clientProfile.DrinkPreference.WithSugar = _withSugar;

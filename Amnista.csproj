@@ -78,6 +78,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Graphicloads-Food-Drink-Coffee-bean.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
       <HintPath>packages\ControlzEx.4.3.0\lib\net462\ControlzEx.dll</HintPath>
@@ -135,15 +138,26 @@
     </ApplicationDefinition>
     <Compile Include="Data Types\Enums\DrinkType.cs" />
     <Compile Include="Data Types\Enums\Status.cs" />
-    <Compile Include="Events\ClientDisconnectedEventArgs.cs" />
-    <Compile Include="Events\ClientMessageReceivedEventArgs.cs" />
-    <Compile Include="Events\ClientConnectedEventArgs.cs" />
+    <Compile Include="Events\client\VoteStartedEventArgs.cs" />
+    <Compile Include="Events\server\ClientVoteReceivedEventArgs.cs" />
+    <Compile Include="Events\VoteReceivedEventArgs.cs" />
+    <Compile Include="Events\server\ClientDisconnectedEventArgs.cs" />
+    <Compile Include="Events\server\ClientMessageReceivedEventArgs.cs" />
+    <Compile Include="Events\server\ClientConnectedEventArgs.cs" />
+    <Compile Include="Events\server\ClientUpdateReceivedEventArgs.cs" />
+    <Compile Include="Events\server\VoteEndedEventArgs.cs" />
+    <Compile Include="Generic\client\Server\Commands\StartVoteCommand.cs" />
+    <Compile Include="Generic\client\Server\Commands\VoteEndedCommand.cs" />
+    <Compile Include="Generic\ServerProfileManager.cs" />
     <Compile Include="Generic\Commander.cs" />
     <Compile Include="Generic\ObservableObject.cs" />
+    <Compile Include="Generic\client\Server\Commands\ServerCommand.cs" />
+    <Compile Include="Generic\client\Server\Commands\ClientVotedCommand.cs" />
     <Compile Include="Generic\SocketService.cs" />
+    <Compile Include="Generic\VoteManager.cs" />
     <Compile Include="Models\ClientProfile.cs" />
+    <Compile Include="Generic\ClientSocketService.cs" />
     <Compile Include="Models\ClientProfileManager.cs" />
-    <Compile Include="Models\ClientSocket.cs" />
     <Compile Include="Models\CoffeeMachine.cs" />
     <Compile Include="Models\CoffeeVote.cs" />
     <Compile Include="Models\DrinkPreference.cs" />
@@ -234,7 +248,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -269,6 +285,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
