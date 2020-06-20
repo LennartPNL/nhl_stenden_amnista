@@ -128,7 +128,7 @@ namespace Amnista.View_Models
             _clientProfile.DrinkPreference.WithMilk = _withMilk;
             _clientProfile.DrinkPreference.WithSugar = _withSugar;
             _clientProfile.CoffeePoints = _coffeePoints;
-
+            
             Properties.Settings.Default.user_name = _name;
             Properties.Settings.Default.user_status = _status.ToString();
             Properties.Settings.Default.user_drinktype = _drinkType.ToString();
