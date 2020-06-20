@@ -24,8 +24,20 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ServerIp}"/>
-
-        <Button Grid.Row="0" Grid.Column="2" Command="{Binding SaveSettingsCommand}" Content="Save"/>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="0.1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="1.5*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Server IP: " VerticalAlignment="Bottom" FontSize="14"/>
+            <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding ServerIp}"/>
+            <Button Grid.Row="1" Grid.Column="2" Command="{Binding SaveSettingsCommand}" Content="Save"/>
+        </Grid>
     </Grid>
 </Page>
