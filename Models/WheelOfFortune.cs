@@ -4,6 +4,8 @@
     {
         // TODO: add connected clients from clientProfileManager
 
-        public ClientProfile ClientProfile { get; set; }
+        public ClientProfileManager ClientProfileManager { get; set; }
+
+        public ClientProfile Winner { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Amnista.Models
 {
-    class DrinkPreference
+    public class DrinkPreference
     {
         public DrinkType DrinkType { get; set; }
         public bool WithMilk { get; set; }
