@@ -76,6 +76,13 @@ namespace Amnista.Models
                         {Client = votedClient, Command = "start_vote"};
                     string clientVotedCommandSerialized = JsonConvert.SerializeObject(clientVotedCommand);
                     client.Socket.Send(Encoding.ASCII.GetBytes(clientVotedCommandSerialized));
+                    
+                });
+            }
+            else
+            {
+                _serverProfileManager.Profiles.ForEach(client =>
+                {
                     client.Socket.Send(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new ClientVotedCommand()
                     {
                         Command = "client_voted",
@@ -84,7 +91,9 @@ namespace Amnista.Models
                 });
             }
 
-                _voteManager.Vote(_serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint));
+            
+
+            _voteManager.Vote(_serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint));
             
             OnPropertyChanged(nameof(ServerResponse));
             OnPropertyChanged(nameof(ClientProfilesDidVote));
