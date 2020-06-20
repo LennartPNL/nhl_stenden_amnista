@@ -89,5 +89,14 @@ namespace Amnista.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string user_name {
+            get {
+                return ResourceManager.GetString("user_name", resourceCulture);
+            }
+        }
     }
 }
