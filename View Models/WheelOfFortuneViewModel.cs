@@ -59,11 +59,21 @@ namespace Amnista.View_Models
             WinnerImg = "pack://siteoforigin:,,,/Resources/and-the-winner-is1170px.jpg";
         }
 
+        /// <summary>
+        /// Changes the displayed name every time the wheel is updated
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">A client profile from the list</param>
         private void _wheelOfFortune_WheelUpdated(object sender, WheelOfFortuneUpdatedEventArgs e)
         {
             Winner = e.ClientProfile;
         }
 
+        /// <summary>
+        /// Changes image source after the winner has been announced
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void _wheelOfFortune_VoteEnded(object sender, EventArgs e)
         {
             WinnerImg = "pack://siteoforigin:,,,/Resources/tcFo7yK.png";
