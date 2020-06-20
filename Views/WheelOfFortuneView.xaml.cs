@@ -22,10 +22,10 @@ namespace Amnista.Views
     /// </summary>
     public partial class WheelOfFortuneView : Page
     {
-        public WheelOfFortuneView(ClientProfileManager clientProfileManager)
+        public WheelOfFortuneView(List<ClientProfile> clientProfiles)
         {
             InitializeComponent();
-            ((WheelOfFortuneViewModel)DataContext).ClientProfileManager = clientProfileManager;
+            ((WheelOfFortuneViewModel)DataContext).ClientProfiles = clientProfiles;
         }
     }
 }

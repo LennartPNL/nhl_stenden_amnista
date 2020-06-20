@@ -1,10 +1,12 @@
-﻿namespace Amnista.Models
+﻿using System.Collections.Generic;
+using System.Windows.Documents;
+
+namespace Amnista.Models
 {
     class WheelOfFortune
     {
         // TODO: add connected clients from clientProfileManager
-
-        public ClientProfileManager ClientProfileManager { get; set; }
+        public List<ClientProfile> ClientProfiles { get; set; }
 
         public ClientProfile Winner { get; set; }
     }

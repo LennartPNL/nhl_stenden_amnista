@@ -33,8 +33,6 @@ namespace Amnista.Views
 
         private void Btn_coffee_vote_Click(object sender, RoutedEventArgs e)
         {
-            ClientProfileManager clientProfileManager = new ClientProfileManager();
-
             List<ClientProfile> clientProfiles = new List<ClientProfile>();
             clientProfiles.Add(new ClientProfile
             {
@@ -61,13 +59,7 @@ namespace Amnista.Views
                 Name = "Ellen"
             });
 
-            clientProfileManager.ClientProfiles = clientProfiles;
-            parent.MainFrame.Navigate(new WheelOfFortuneView(clientProfileManager));
-        }
-
-        private void test()
-        {
-            
+            parent.MainFrame.Navigate(new WheelOfFortuneView(clientProfiles));
         }
     }
 }

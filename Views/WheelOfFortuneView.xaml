@@ -45,7 +45,7 @@
             </Grid.RowDefinitions>
             
             <Viewbox Grid.Column="1" Grid.Row="1">
-                <TextBlock Text="{Binding ResultText}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding Winner.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Viewbox>
         </Grid>
     </Grid>

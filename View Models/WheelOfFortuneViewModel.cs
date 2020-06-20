@@ -15,19 +15,18 @@ namespace Amnista.View_Models
     class WheelOfFortuneViewModel : ObservableObject
     {
         private readonly WheelOfFortune _wheelOfFortune;
-        private string _resultText;
         private Timer timer;
         private const int interval = 200;
         private int rotationNr = 0;
         private string _winnerImg;
 
-        public ClientProfileManager ClientProfileManager
+        public List<ClientProfile> ClientProfiles
         {
-            get { return _wheelOfFortune.ClientProfileManager; }
+            get { return _wheelOfFortune.ClientProfiles; }
             set
             {
-                _wheelOfFortune.ClientProfileManager = value;
-                OnPropertyChanged(nameof(ClientProfileManager));
+                _wheelOfFortune.ClientProfiles = value;
+                OnPropertyChanged(nameof(ClientProfiles));
             }
         }
 
@@ -37,17 +36,7 @@ namespace Amnista.View_Models
             set
             {
                 _wheelOfFortune.Winner = value;
-                OnPropertyChanged(nameof(ClientProfileManager));
-            }
-        }
-
-        public string ResultText
-        {
-            get { return _resultText; }
-            set
-            {
-                _resultText = value;
-                OnPropertyChanged(nameof(ResultText));
+                OnPropertyChanged(nameof(Winner));
             }
         }
 
@@ -71,14 +60,13 @@ namespace Amnista.View_Models
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            List<ClientProfile> profiles = ClientProfileManager.ClientProfiles;
             timer.Stop();
 
-            if (++rotationNr == profiles.Count)
+            if (++rotationNr == ClientProfiles.Count)
             {
                 rotationNr = 0;
             }
-            ResultText = profiles[rotationNr].Name;
+            Winner = ClientProfiles[rotationNr];
 
             timer.Enabled = true;
         }
