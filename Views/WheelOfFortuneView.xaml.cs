@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Amnista.Models;
+using Amnista.View_Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,10 @@ namespace Amnista.Views
     /// </summary>
     public partial class WheelOfFortuneView : Page
     {
-        public WheelOfFortuneView()
+        public WheelOfFortuneView(ClientProfileManager clientProfileManager)
         {
             InitializeComponent();
+            ((WheelOfFortuneViewModel)DataContext).ClientProfileManager = clientProfileManager;
         }
     }
 }

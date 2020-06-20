@@ -1,6 +1,6 @@
 ﻿namespace Amnista.Models
 {
-    class ClientSocket
+    public class ClientSocket
     {
     }
 }

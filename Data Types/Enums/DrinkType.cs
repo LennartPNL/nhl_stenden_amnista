@@ -1,6 +1,6 @@
 ﻿namespace Amnista.Data_Types.Enums
 {
-    enum DrinkType
+    public enum DrinkType
     {
         COFFEE,
         TEA,
