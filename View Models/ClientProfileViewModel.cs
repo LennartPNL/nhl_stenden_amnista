@@ -37,7 +37,7 @@ namespace Amnista.View_Models
         /// </summary>
         public string Name
         {
-            get => _name;
+            get => Properties.Settings.Default.user_name == null ? "" : _name;
             set
             {
                 _name = value;
@@ -47,7 +47,7 @@ namespace Amnista.View_Models
 
         public Status Status
         {
-            get => _status;
+            get => Properties.Settings.Default.user_status == null ? Status.OFFLINE : _status;
             set
             {
                 _status = value;
@@ -57,7 +57,7 @@ namespace Amnista.View_Models
 
         public DrinkType DrinkType
         {
-            get => _drinkType;
+            get => Properties.Settings.Default.user_drinktype == null ? DrinkType.WATER : _drinkType;
             set
             {
                 _drinkType = value;
@@ -67,7 +67,7 @@ namespace Amnista.View_Models
 
         public bool WithMilk
         {
-            get => _withMilk;
+            get => Properties.Settings.Default.user_withmilk == null ? false : _withMilk;
             set
             {
                 _withMilk = value;
@@ -77,7 +77,7 @@ namespace Amnista.View_Models
 
         public bool WithSugar
         {
-            get => _withSugar;
+            get => Properties.Settings.Default.user_withsugar == null ? false : _withSugar;
             set
             {
                 _withSugar = value;
@@ -87,7 +87,7 @@ namespace Amnista.View_Models
 
         public int CoffeePoints
         {
-            get => _coffeePoints;
+            get => Properties.Settings.Default.user_coffeePoints == null ? 0 : _coffeePoints;
             set
             {
                 _coffeePoints = value;
@@ -123,12 +123,12 @@ namespace Amnista.View_Models
         public void SaveProfile()
         {
             _clientProfile.Name = _name;
-            _clientProfile.status = _status;
+            _clientProfile.Status = _status;
             _clientProfile.DrinkPreference.DrinkType = _drinkType;
             _clientProfile.DrinkPreference.WithMilk = _withMilk;
             _clientProfile.DrinkPreference.WithSugar = _withSugar;
             _clientProfile.CoffeePoints = _coffeePoints;
-
+            
             Properties.Settings.Default.user_name = _name;
             Properties.Settings.Default.user_status = _status.ToString();
             Properties.Settings.Default.user_drinktype = _drinkType.ToString();

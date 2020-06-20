@@ -52,8 +52,6 @@
         </ScrollViewer>
 
 
-
-
         <Frame Grid.Column="1" x:Name="MainFrame" Navigated="MainFrame_Navigated" NavigationUIVisibility="Hidden"></Frame>
       
 

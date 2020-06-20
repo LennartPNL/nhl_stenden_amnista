@@ -25,7 +25,7 @@ namespace Amnista.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Please enter a name")]
         public string user_name {
             get {
                 return ((string)(this["user_name"]));
@@ -37,7 +37,7 @@ namespace Amnista.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("OFFLINE")]
         public string user_status {
             get {
                 return ((string)(this["user_status"]));
@@ -49,7 +49,7 @@ namespace Amnista.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("WATER")]
         public string user_drinktype {
             get {
                 return ((string)(this["user_drinktype"]));
@@ -61,6 +61,7 @@ namespace Amnista.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool user_withmilk {
             get {
                 return ((bool)(this["user_withmilk"]));
@@ -72,6 +73,7 @@ namespace Amnista.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool user_withsugar {
             get {
                 return ((bool)(this["user_withsugar"]));
@@ -83,12 +85,25 @@ namespace Amnista.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int user_coffeePoints {
             get {
                 return ((int)(this["user_coffeePoints"]));
             }
             set {
                 this["user_coffeePoints"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.178.1")]
+        public string server_ip {
+            get {
+                return ((string)(this["server_ip"]));
+            }
+            set {
+                this["server_ip"] = value;
             }
         }
     }
