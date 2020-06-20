@@ -2,7 +2,7 @@
 
 namespace Amnista.Models
 {
-    class ClientProfile
+    public class ClientProfile
     {
         public string Name { get; set; }
         public Status status { get; set; }
