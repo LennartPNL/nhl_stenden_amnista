@@ -1,33 +1,33 @@
-﻿using Amnista.Generic;
+﻿using Amnista.Events.client;
+using Amnista.Generic;
 using Amnista.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Timers;
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Input;
-using Timer = System.Timers.Timer;
 
 namespace Amnista.View_Models
 {
     class WheelOfFortuneViewModel : ObservableObject
     {
         private readonly WheelOfFortune _wheelOfFortune;
-        private string _resultText;
-        private Timer timer;
-        private const int interval = 200;
-        private int rotationNr = 0;
         private string _winnerImg;
 
-        public ClientProfileManager ClientProfileManager
+        public ClientSocket ClientSocket
         {
-            get { return _wheelOfFortune.ClientProfileManager; }
+            get { return _wheelOfFortune.ClientSocket; }
             set
             {
-                _wheelOfFortune.ClientProfileManager = value;
-                OnPropertyChanged(nameof(ClientProfileManager));
+                _wheelOfFortune.ClientSocket = value;
+                OnPropertyChanged(nameof(ClientSocket));
+            }
+        }
+
+        public List<ClientProfile> ClientProfiles
+        {
+            get { return _wheelOfFortune.ClientProfiles; }
+            set
+            {
+                _wheelOfFortune.ClientProfiles = value;
+                OnPropertyChanged(nameof(ClientProfiles));
             }
         }
 
@@ -37,17 +37,7 @@ namespace Amnista.View_Models
             set
             {
                 _wheelOfFortune.Winner = value;
-                OnPropertyChanged(nameof(ClientProfileManager));
-            }
-        }
-
-        public string ResultText
-        {
-            get { return _resultText; }
-            set
-            {
-                _resultText = value;
-                OnPropertyChanged(nameof(ResultText));
+                OnPropertyChanged(nameof(Winner));
             }
         }
 
@@ -64,36 +54,18 @@ namespace Amnista.View_Models
         public WheelOfFortuneViewModel()
         {
             _wheelOfFortune = new WheelOfFortune();
+            _wheelOfFortune.VoteEnded += _wheelOfFortune_VoteEnded;
+            _wheelOfFortune.WheelUpdated += _wheelOfFortune_WheelUpdated;
             WinnerImg = "pack://siteoforigin:,,,/Resources/and-the-winner-is1170px.jpg";
         }
 
-        public ICommand LoadedCommand => new Commander(Spin);
-
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void _wheelOfFortune_WheelUpdated(object sender, WheelOfFortuneUpdatedEventArgs e)
         {
-            List<ClientProfile> profiles = ClientProfileManager.ClientProfiles;
-            timer.Stop();
-
-            if (++rotationNr == profiles.Count)
-            {
-                rotationNr = 0;
-            }
-            ResultText = profiles[rotationNr].Name;
-
-            timer.Enabled = true;
+            Winner = e.ClientProfile;
         }
 
-        public void Spin()
+        private void _wheelOfFortune_VoteEnded(object sender, EventArgs e)
         {
-            timer = new Timer(interval);
-            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            timer.Enabled = true;
-        }
-
-        public void Stop(ClientProfile winner)
-        {
-            timer.Stop();
-            Winner = winner;
             WinnerImg = "pack://siteoforigin:,,,/Resources/tcFo7yK.png";
         }
     }
