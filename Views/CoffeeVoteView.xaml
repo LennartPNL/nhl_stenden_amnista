@@ -28,6 +28,6 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
-        <Button Grid.Row="2" Grid.Column="2" Command="{Binding StartServerCommand}" Height="90" Width="160">Start Ejaculatie</Button>
+        <Button Grid.Row="2" Grid.Column="2" Command="{Binding StartServerCommand}">Start Vote</Button>
     </Grid>
 </Page>

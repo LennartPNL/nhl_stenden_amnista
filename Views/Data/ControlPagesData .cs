@@ -7,6 +7,7 @@ namespace Amnista.Views.Data
     {
         public ControlPagesData()
         {
+            AddPage(new CoffeeVoteView(), "Coffee Vote");
             AddPage(new ClientProfileView(), "Profile");
             AddPage(new SettingsView(), "Settings");
             AddPage(new CoffeeMachineModeView(), "Server Mode");
