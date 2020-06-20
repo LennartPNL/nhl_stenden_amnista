@@ -91,5 +91,17 @@ namespace Amnista.Properties {
                 this["user_coffeePoints"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string server_ip {
+            get {
+                return ((string)(this["server_ip"]));
+            }
+            set {
+                this["server_ip"] = value;
+            }
+        }
     }
 }
