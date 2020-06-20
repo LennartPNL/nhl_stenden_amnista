@@ -22,14 +22,22 @@ namespace Amnista.Generic
 
         private void TimerOnElapsed(object sender, ElapsedEventArgs e)
         {
-            ClientProfile chosenClientProfile =
+            var chosenClientProfile =
                 _clientProfilesDidVote[new Random().Next(0, _clientProfilesDidVote.Count)];
             _clientProfilesDidVote.ForEach(client =>
             {
                 client.Socket.Send(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new VoteEndedCommand()
-                    {Command = "end_vote", Winner = chosenClientProfile})));
+                    {
+                        Command = "end_vote", 
+                        Winner = chosenClientProfile,
+                        Clients = _clientProfilesDidVote
+                    })));
             });
-            VoteEndedEvent(new VoteEndedEventArgs(chosenClientProfile));
+            VoteEndedEvent(new VoteEndedEventArgs(chosenClientProfile)
+            {
+                Winner = chosenClientProfile,
+                Clients = _clientProfilesDidVote
+            });
             _timer.Stop();
             Reset();
         }
@@ -40,15 +48,9 @@ namespace Amnista.Generic
 
         public void Vote(ClientProfile clientProfile)
         {
-            if (!VoteHasStarted)
-            {
-                _timer.Start();
-            }
+            if (!VoteHasStarted) _timer.Start();
 
-            if (!_clientProfilesDidVote.Contains(clientProfile))
-            {
-                _clientProfilesDidVote.Add(clientProfile);
-            }
+            if (!_clientProfilesDidVote.Contains(clientProfile)) _clientProfilesDidVote.Add(clientProfile);
         }
 
         public void Reset()
@@ -61,7 +63,7 @@ namespace Amnista.Generic
 
         protected virtual void VoteEndedEvent(VoteEndedEventArgs e)
         {
-            EventHandler<VoteEndedEventArgs> handler = VoteEnded;
+            var handler = VoteEnded;
             handler?.Invoke(this, e);
         }
 
