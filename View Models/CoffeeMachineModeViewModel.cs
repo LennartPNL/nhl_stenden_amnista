@@ -27,6 +27,7 @@ namespace Amnista.View_Models
 
         public int ClientProfilesDidVote => _server.ClientProfilesDidVote;
 
+        public string ServerIP => (_server.Started) ? _server.ServerIP : "not started";
 
         public int ClientsOnline => _server.ServerProfileManager.Profiles.Count == null
             ? 0
@@ -81,6 +82,9 @@ namespace Amnista.View_Models
                         ClientProfiles.Reverse();
                         OnPropertyChanged("ClientProfiles");
                     });
+                    break;
+                case nameof(ServerIP):
+                    Application.Current.Dispatcher.Invoke(() => { OnPropertyChanged(nameof(ServerIP)); });
                     break;
                 case nameof(ClientProfilesDidVote):
                     Application.Current.Dispatcher.Invoke(() => { OnPropertyChanged(nameof(ClientProfilesDidVote)); });

@@ -27,6 +27,11 @@
             <Run Text="{Binding ClientsOnline, Mode=OneWay}" />
         </TextBlock>
 
+        <TextBlock Grid.Row="1">
+            <Run Text="Server IP: " />
+            <Run Text="{Binding ServerIP, Mode=OneWay}" />
+        </TextBlock>
+
         <TextBlock Grid.Column="1" Grid.Row="0">
             <Run Text="Latest vote by: " />
             <Run Text="{Binding ServerResponse, Mode=OneWay}" />

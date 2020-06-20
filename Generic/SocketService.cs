@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using Amnista.Events;
+using Amnista.Generic.client.Server.Commands;
 using Amnista.Generic.Server;
 using Amnista.Models;
 using Newtonsoft.Json;
+using VoteEndedEventArgs = Amnista.Events.VoteEndedEventArgs;
 
 namespace Amnista.Generic
 {
@@ -16,6 +19,11 @@ namespace Amnista.Generic
     {
         private Thread _connectionThread;
         private readonly Socket _server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+        public string ServerIP => Dns.GetHostEntry(Dns.GetHostName())
+            .AddressList
+            .First(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            .ToString();
 
 
         /// <summary>
@@ -61,8 +69,9 @@ namespace Amnista.Generic
                     {
                         HandleConnection(client);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Debug.WriteLine(ex.Message);
                         ClientDisconnectedEvent(new ClientDisconnectedEventArgs(client));
                     }
                 }).Start();
@@ -104,7 +113,11 @@ namespace Amnista.Generic
                         UpdateReceivedEvent(new ClientUpdateReceivedEventArgs(client, clientProfile));
                         break;
                     case "start_vote":
-                        StartVoteReceivedEvent(new StartVoteReceivedEventArgs(client));
+                        StartVoteReceivedEvent(new VoteReceivedEventArgs(client));
+                        break;
+                    case "end_vote":
+                        VoteEndedCommand voteEndedClient = JsonConvert.DeserializeObject<VoteEndedCommand>(message);
+                        VoteEndedEventArgsEvent(new VoteEndedEventArgs(voteEndedClient.Winner));
                         break;
                     default:
                         MessageReceivedEvent(new ClientMessageReceivedEventArgs(client, message));
@@ -125,9 +138,9 @@ namespace Amnista.Generic
             handler?.Invoke(this, e);
         }
 
-        protected virtual void StartVoteReceivedEvent(StartVoteReceivedEventArgs e)
+        protected virtual void StartVoteReceivedEvent(VoteReceivedEventArgs e)
         {
-            EventHandler<StartVoteReceivedEventArgs> handler = StartVoteReceived;
+            EventHandler<VoteReceivedEventArgs> handler = StartVoteReceived;
             handler?.Invoke(this, e);
         }
 
@@ -143,10 +156,17 @@ namespace Amnista.Generic
             handler?.Invoke(this, e);
         }
 
+        protected virtual void VoteEndedEventArgsEvent(VoteEndedEventArgs e)
+        {
+            EventHandler<VoteEndedEventArgs> handler = VoteEnded;
+            handler?.Invoke(this, e);
+        }
+
         public event EventHandler<ClientConnectedEventArgs> ClientConnected;
         public event EventHandler<ClientMessageReceivedEventArgs> MessageReceived;
-        public event EventHandler<StartVoteReceivedEventArgs> StartVoteReceived;
+        public event EventHandler<VoteReceivedEventArgs> StartVoteReceived;
         public event EventHandler<ClientUpdateReceivedEventArgs> UpdateReceived;
         public event EventHandler<ClientDisconnectedEventArgs> ClientDisconnected;
+        public event EventHandler<VoteEndedEventArgs> VoteEnded;
     }
 }

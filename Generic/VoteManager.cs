@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Timers;
 using Amnista.Events;
+using Amnista.Generic.client.Server.Commands;
 using Amnista.Models;
+using Newtonsoft.Json;
 
 namespace Amnista.Generic
 {
@@ -11,7 +13,7 @@ namespace Amnista.Generic
     {
         private List<ClientProfile> _clientProfilesDidVote = new List<ClientProfile>();
 
-        private System.Timers.Timer _timer = new System.Timers.Timer(5000);
+        private Timer _timer = new Timer(10000);
 
         public VoteManager()
         {
@@ -24,12 +26,10 @@ namespace Amnista.Generic
                 _clientProfilesDidVote[new Random().Next(0, _clientProfilesDidVote.Count)];
             _clientProfilesDidVote.ForEach(client =>
             {
-                client.Socket.Send(Encoding.ASCII.GetBytes(chosenClientProfile.Name + " must get drinks!"));
+                client.Socket.Send(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new VoteEndedCommand()
+                    {Command = "end_vote", Winner = chosenClientProfile})));
             });
-            VoteEndedEvent(new VoteEndedEventArgs()
-            {
-                ClientProfile = chosenClientProfile
-            });
+            VoteEndedEvent(new VoteEndedEventArgs(chosenClientProfile));
             _timer.Stop();
             Reset();
         }

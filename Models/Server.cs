@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Amnista.Annotations;
 using Amnista.Events;
 using Amnista.Generic;
+using Amnista.Generic.Server.Commands;
+using Newtonsoft.Json;
 
 namespace Amnista.Models
 {
@@ -13,6 +16,8 @@ namespace Amnista.Models
         private readonly VoteManager _voteManager = new VoteManager();
         private readonly ServerProfileManager _serverProfileManager;
         private bool _started = false;
+
+        public string ServerIP => _socketService.ServerIP;
 
         public bool Started
         {
@@ -56,23 +61,31 @@ namespace Amnista.Models
             _serverProfileManager.PropertyChanged += ServerProfileManagerOnPropertyChanged;
         }
 
-        private void SocketServiceOnStartVoteReceived(object sender, StartVoteReceivedEventArgs e)
+        private void SocketServiceOnStartVoteReceived(object sender, VoteReceivedEventArgs e)
         {
+            
+            ClientProfile votedClient =
+                _serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint);
+            ServerResponse = votedClient.Name;
+
             if (!_voteManager.VoteHasStarted)
             {
                 _serverProfileManager.Profiles.ForEach(client =>
                 {
-                    client.Socket.Send(
-                        // e.Client.RemoteEndPoint) + started a vote
-                        Encoding.ASCII.GetBytes(
-                            _serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint).Name +
-                            " started a vote!"));
+                    ClientVotedCommand clientVotedCommand = new ClientVotedCommand()
+                        {Client = votedClient, Command = "start_vote"};
+                    string clientVotedCommandSerialized = JsonConvert.SerializeObject(clientVotedCommand);
+                    client.Socket.Send(Encoding.ASCII.GetBytes(clientVotedCommandSerialized));
+                    client.Socket.Send(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new ClientVotedCommand()
+                    {
+                        Command = "client_voted",
+                        Client = votedClient
+                    })));
                 });
             }
 
-            _voteManager.Vote(_serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint));
-            ServerResponse = _serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint).Socket.RemoteEndPoint
-                .ToString();
+                _voteManager.Vote(_serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint));
+            
             OnPropertyChanged(nameof(ServerResponse));
             OnPropertyChanged(nameof(ClientProfilesDidVote));
         }
@@ -90,6 +103,7 @@ namespace Amnista.Models
         {
             Started = true;
             _socketService.Start();
+            OnPropertyChanged(nameof(ServerIP));
         }
 
         public void Stop()
@@ -102,8 +116,7 @@ namespace Amnista.Models
         {
             ClientProfile clientProfile = _serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint);
             _serverProfileManager.DeleteProfile(clientProfile);
-            ServerResponse = e.Client.RemoteEndPoint + " disconnected \n conns: " +
-                             _serverProfileManager.Profiles.Count;
+           
         }
 
         private void SocketServiceOnMessageReceived(object sender, ClientMessageReceivedEventArgs e)
@@ -118,7 +131,6 @@ namespace Amnista.Models
             client.CoffeePoints = e.ClientProfile.CoffeePoints;
             client.DrinkPreference = e.ClientProfile.DrinkPreference;
             client.Status = e.ClientProfile.Status;
-            ServerResponse = client.Name;
         }
 
 
