@@ -157,6 +157,7 @@
     <Compile Include="Generic\VoteManager.cs" />
     <Compile Include="Models\ClientProfile.cs" />
     <Compile Include="Generic\ClientSocketService.cs" />
+    <Compile Include="Models\ClientProfileManager.cs" />
     <Compile Include="Models\CoffeeMachine.cs" />
     <Compile Include="Models\CoffeeVote.cs" />
     <Compile Include="Models\DrinkPreference.cs" />
@@ -259,18 +260,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Json.Net">
-      <Version>1.0.22</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="RotaryWheelUserControl">
-      <Version>1.0.5779.19702</Version>
-    </PackageReference>
+    <Resource Include="Resources\text-frame-png-14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphicloads-Food-Drink-Coffee-bean.ico" />
+    <EmbeddedResource Include="Resources\and-the-winner-is1170px.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\tcFo7yK.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.1">
@@ -284,7 +286,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

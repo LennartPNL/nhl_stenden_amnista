@@ -25,7 +25,7 @@ namespace Amnista
             InitializeComponent();
             _clientSocket = new ClientSocket();
             new Thread(()=> _clientSocket.StartClient()).Start();
-            this.MainFrame.Navigate(new HomeView(), _clientSocket);
+            this.MainFrame.Navigate(new HomeView(this), _clientSocket);
             _clientSocket.VoteStarted += ClientSocketOnVoteStarted;
             _clientSocket.VoteReceived += ClientSocketOnVoteReceived;
             _clientSocket.VoteEnded += ClientSocketOnVoteEnded;

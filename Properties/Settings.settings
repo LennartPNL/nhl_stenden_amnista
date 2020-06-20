@@ -1,7 +1,27 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Amnista.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="user_name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Please enter a name</Value>
+    </Setting>
+    <Setting Name="user_status" Type="System.String" Scope="User">
+      <Value Profile="(Default)">OFFLINE</Value>
+    </Setting>
+    <Setting Name="user_drinktype" Type="System.String" Scope="User">
+      <Value Profile="(Default)">WATER</Value>
+    </Setting>
+    <Setting Name="user_withmilk" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="user_withsugar" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="user_coffeePoints" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="server_ip" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.178.1</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

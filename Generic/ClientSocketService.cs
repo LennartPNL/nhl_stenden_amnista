@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace Amnista.Models
 {
-    class ClientSocket
+    public class ClientSocket
     {
         // Data buffer for incoming data.  
         byte[] bytes = new byte[1024];

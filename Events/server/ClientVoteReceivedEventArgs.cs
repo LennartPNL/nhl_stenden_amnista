@@ -2,7 +2,7 @@
 
 namespace Amnista.Events
 {
-    class ClientVoteReceivedEventArgs
+    public class ClientVoteReceivedEventArgs
     {
         public ClientProfile Client { get; set; }
 
