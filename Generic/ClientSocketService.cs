@@ -108,7 +108,10 @@ namespace Amnista.Models
                         break;
                     case "end_vote":
                         VoteEndedCommand winnerClient = JsonConvert.DeserializeObject<VoteEndedCommand>(message);
-                        VoteEndedEvent(new VoteEndedEventArgs(winnerClient.Winner));
+                        VoteEndedEvent(new VoteEndedEventArgs(winnerClient.Winner)
+                        {
+                            Clients = winnerClient.Clients
+                        });
                         break;
                 }
             }
