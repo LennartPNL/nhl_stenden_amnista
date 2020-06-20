@@ -8,17 +8,18 @@ namespace Amnista.View_Models
 {
     class ClientProfileViewModel : ObservableObject
     {
-
         /// <summary>
         /// Fields
         /// </summary>
         private readonly ClientProfile _clientProfile;
+
         private string _name = Properties.Settings.Default.user_name;
         private Status _status = ParseEnum<Status>(Properties.Settings.Default.user_status);
         private DrinkType _drinkType = ParseEnum<DrinkType>(Properties.Settings.Default.user_drinktype);
         private bool _withMilk = Properties.Settings.Default.user_withmilk;
         private bool _withSugar = Properties.Settings.Default.user_withsugar;
         private int _coffeePoints = Properties.Settings.Default.user_coffeePoints;
+        private int _onlineUsers;
 
         /// <summary>
         /// Constructor
@@ -36,68 +37,82 @@ namespace Amnista.View_Models
         /// </summary>
         public string Name
         {
-            get { return _name; }
+            get => _name;
             set
             {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
+
         public Status Status
         {
-            get { return _status; }
+            get => _status;
             set
             {
                 _status = value;
                 OnPropertyChanged(nameof(Status));
             }
         }
+
         public DrinkType DrinkType
         {
-            get { return _drinkType; }
+            get => _drinkType;
             set
             {
                 _drinkType = value;
                 OnPropertyChanged(nameof(DrinkType));
             }
         }
+
         public bool WithMilk
         {
-            get { return _withMilk; }
+            get => _withMilk;
             set
             {
                 _withMilk = value;
                 OnPropertyChanged(nameof(WithMilk));
             }
         }
+
         public bool WithSugar
         {
-            get { return _withSugar; }
+            get => _withSugar;
             set
             {
                 _withSugar = value;
                 OnPropertyChanged(nameof(WithSugar));
             }
         }
+
         public int CoffeePoints
         {
-            get { return _coffeePoints; }
+            get => _coffeePoints;
             set
             {
                 _coffeePoints = value;
                 OnPropertyChanged(nameof(CoffeePoints));
             }
         }
+        public int OnlineUsers
+        {
+            get => _onlineUsers;
+            set
+            {
+                _onlineUsers = value;
+                OnPropertyChanged(nameof(OnlineUsers));
+            }
+        }
 
         /// <summary>
-        /// Helper class for converting string to Enum
+        /// Helper method for converting string to Enum
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
         public static T ParseEnum<T>(string value)
         {
-            return (T)Enum.Parse(typeof(T), value, ignoreCase: true);
+            return (T) Enum.Parse(typeof(T), value, ignoreCase: true);
         }
 
         /// <summary>

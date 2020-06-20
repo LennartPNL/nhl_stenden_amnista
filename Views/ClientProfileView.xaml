@@ -43,9 +43,14 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="2">
+        <TextBlock Grid.Row="0" Grid.Column="0">
             <Run Text="Coffee points: "/>
             <Run Text="{Binding CoffeePoints}"/>
+        </TextBlock>
+
+        <TextBlock Grid.Row="0" Grid.Column="4">
+            <Run Text="Users online: "/>
+            <Run Text="{Binding OnlineUsers}"/>
         </TextBlock>
 
         <TextBox Grid.Row="2" Grid.Column="0" Text="{Binding Name}"/>
@@ -57,7 +62,7 @@
                   SelectedItem="{Binding DrinkType}">
         </ComboBox>
 
-        <ComboBox Grid.Row="0" Grid.Column="4"
+        <ComboBox Grid.Row="1" Grid.Column="4"
                   ItemsSource="{Binding Source={StaticResource DataFromStatus}}"
                   SelectedItem="{Binding Status}">
         </ComboBox>
