@@ -17,3 +17,6 @@ Once you are all set up, you can check whether the clients have connected on the
 - You can simply press yes to join, which will take the client to the page with the wheel of fortune;
 - The voting session will end after a given period of time, at which moment a "winner" is declared;
 - The declared winner has to retrieve the ordered drinks, every users wishes will be shown on the server.
+
+
+![Amnista](https://github.com/LennartPNL/nhl_stenden_amnista/Resources/Amnista.png)
