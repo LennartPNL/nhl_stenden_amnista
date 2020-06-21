@@ -5,6 +5,10 @@ using Newtonsoft.Json;
 
 namespace Amnista.Models
 {
+    /// <summary>
+    /// This class holds all the information for an client. And is also used as communication model between
+    /// the server and the client
+    /// </summary>
     public class ClientProfile : ServerCommand
     {
         public string Name { get; set; }

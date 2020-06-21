@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Timers;
 using System.Windows.Documents;
+using Amnista.Generic;
 
 namespace Amnista.Models
 {

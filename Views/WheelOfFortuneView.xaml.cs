@@ -1,6 +1,7 @@
 ﻿using Amnista.Models;
 using Amnista.View_Models;
 using System.Windows.Controls;
+using Amnista.Generic;
 
 namespace Amnista.Views
 {

@@ -48,7 +48,7 @@
             Start server
         </Button>
 
-        <DataGrid Grid.Row="2" Grid.Column="1" ItemsSource="{Binding VotedClients, Mode=OneWay}" DisplayMemberPath="Name" AutoGenerateColumns="False">
+        <DataGrid Grid.Row="2" Grid.Column="1" ItemsSource="{Binding VotedClients}" DisplayMemberPath="Name" AutoGenerateColumns="False" IsManipulationEnabled="false">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Drink" Binding="{Binding DrinkPreference.DrinkType}"/>

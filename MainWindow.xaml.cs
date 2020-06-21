@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Amnista.Events;
 using Amnista.Events.client;
+using Amnista.Generic;
 using Amnista.Generic.client.Server.Commands;
 using Amnista.Models;
 

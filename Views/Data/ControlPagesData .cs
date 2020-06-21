@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Amnista.Generic;
 using Amnista.Models;
 
 namespace Amnista.Views.Data

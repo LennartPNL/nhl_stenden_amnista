@@ -12,8 +12,11 @@ using Amnista.Generic.Server;
 using Amnista.Generic.Server.Commands;
 using Newtonsoft.Json;
 
-namespace Amnista.Models
+namespace Amnista.Generic
 {
+    /// <summary>
+    /// The ClientSocket handles all the socket communication for the client
+    /// </summary>
     public class ClientSocket
     {
         // Data buffer for incoming data.  
@@ -21,6 +24,9 @@ namespace Amnista.Models
         private Socket server;
         public bool IsRunning { get; set; }
 
+        /// <summary>
+        /// Connects the socket if possible
+        /// </summary>
         public void StartClient()
         {
             IPEndPoint serverEp = new IPEndPoint(IPAddress.Parse(Properties.Settings.Default.server_ip), 11000);
@@ -45,12 +51,19 @@ namespace Amnista.Models
             }
         }
 
+        /// <summary>
+        /// Sends a message to the server
+        /// </summary>
+        /// <param name="message"></param>
         public void SendMessage(string message)
         {
             server.Send(Encoding.ASCII.GetBytes(message));
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Closes the connection
+        /// </summary>
         public void CloseConnection()
         {
             if (IsRunning)
@@ -61,6 +74,11 @@ namespace Amnista.Models
             }
         }
 
+        /// <summary>
+        /// Converts an object to json and adds a command to it. Once it's converted it will be sent to the server
+        /// </summary>
+        /// <param name="command">Command to send to the server</param>
+        /// <param name="payload">Object that should be sent to the server</param>
         public void SendCommand(string command, object payload)
         {
             if (IsRunning)
@@ -72,11 +90,18 @@ namespace Amnista.Models
             }
         }
 
+        /// <summary>
+        /// Start or participates in a vote round
+        /// </summary>
         public void Vote()
         {
             SendCommand("start_vote", new StartVoteCommand());
         }
 
+        /// <summary>
+        /// Reads the incoming socket bytes
+        /// </summary>
+        /// <param name="client"></param>
         void HandleConnection(Socket client)
         {
             Console.WriteLine("Connection with server () established!");
