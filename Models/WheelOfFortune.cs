@@ -33,12 +33,19 @@ namespace Amnista.Models
         {
 
             ClientProfiles = new List<ClientProfile>();
+
+            //Sets the text while waiting for the winner to be determined 
             Winner = new ClientProfile
             {
                 Name = "Waiting..."
             };
         }
 
+        /// <summary>
+        /// Updates the name that should be displayed every time the set interval expires
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             if (ClientProfiles.Count > 0)
@@ -52,6 +59,9 @@ namespace Amnista.Models
             }
         }
 
+        /// <summary>
+        /// Creates the timer and sets the elapsed event
+        /// </summary>
         public void Spin()
         {
             timer = new Timer(interval);
@@ -59,6 +69,10 @@ namespace Amnista.Models
             timer.Enabled = true;
         }
 
+        /// <summary>
+        /// Stops the wheel, sets the winner and calls the spinner ended event
+        /// </summary>
+        /// <param name="winner">Winner of the poll</param>
         public void Stop(ClientProfile winner)
         {
             timer.Stop();
@@ -66,6 +80,11 @@ namespace Amnista.Models
             SpinnerEndedEvent();
         }
 
+        /// <summary>
+        /// Initiates a spin of 5 seconds after the winner has been declared and shows the result
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">Results of the vote</param>
         private void _clientSocket_VoteEnded(object sender, Events.VoteEndedEventArgs e)
         {
             ClientProfiles.AddRange(e.Clients);
@@ -74,12 +93,19 @@ namespace Amnista.Models
             Stop(e.Winner);
         }
 
+        /// <summary>
+        /// Should be called when the vote has ended
+        /// </summary>
         protected virtual void SpinnerEndedEvent()
         {
             EventHandler handler = VoteEnded;
             handler?.Invoke(this, null);
         }
 
+        /// <summary>
+        /// Should be called when the displayed name should be changed
+        /// </summary>
+        /// <param name="e">client profile of the name that should be displayed</param>
         protected virtual void WheelUpdatedEvent(WheelOfFortuneUpdatedEventArgs e)
         {
             EventHandler<WheelOfFortuneUpdatedEventArgs> handler = WheelUpdated;
