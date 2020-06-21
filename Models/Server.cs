@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Amnista.Annotations;
@@ -10,10 +9,13 @@ using Newtonsoft.Json;
 
 namespace Amnista.Models
 {
+    /// <summary>
+    /// Manages the server
+    /// </summary>
     public class Server : INotifyPropertyChanged
     {
         private readonly SocketService _socketService;
-        private readonly VoteManager _voteManager = new VoteManager();
+        private readonly VoteManager _voteManager;
         private readonly ServerProfileManager _serverProfileManager;
         private bool _started = false;
 
@@ -30,7 +32,6 @@ namespace Amnista.Models
         }
 
         public int ClientProfilesDidVote => _voteManager.ClientProfilesDidVote;
-
 
         private string _serverResponse = "";
 
@@ -49,18 +50,38 @@ namespace Amnista.Models
             get => _serverProfileManager;
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Server()
         {
             _serverProfileManager = new ServerProfileManager();
             _socketService = new SocketService();
+            _voteManager = new VoteManager();
             _socketService.ClientConnected += SocketServiceOnClientConnected;
             _socketService.MessageReceived += SocketServiceOnMessageReceived;
             _socketService.UpdateReceived += SocketServiceOnUpdateReceived;
             _socketService.ClientDisconnected += SocketServiceOnClientDisconnected;
             _socketService.StartVoteReceived += SocketServiceOnStartVoteReceived;
             _serverProfileManager.PropertyChanged += ServerProfileManagerOnPropertyChanged;
+            _socketService.PropertyChanged += SocketServiceOnPropertyChanged;
         }
 
+        /// <summary>
+        /// Gets called whenever an property changes on the SocketService
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SocketServiceOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(ServerIP));
+        }
+
+        /// <summary>
+        /// Gets called whenever a vote start command is received
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SocketServiceOnStartVoteReceived(object sender, VoteReceivedEventArgs e)
         {
             
@@ -79,26 +100,37 @@ namespace Amnista.Models
                     
                 });
             }
-            else
-            {
-                _serverProfileManager.Profiles.ForEach(client =>
-                {
-                    client.Socket.Send(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new ClientVotedCommand()
-                    {
-                        Command = "client_voted",
-                        Client = votedClient
-                    })));
-                });
-            }
-
-            
 
             _voteManager.Vote(_serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint));
             
             OnPropertyChanged(nameof(ServerResponse));
             OnPropertyChanged(nameof(ClientProfilesDidVote));
         }
+        
+        /// <summary>
+        /// Starts the server
+        /// </summary>
+        public void Start()
+        {
+            Started = true;
+            _socketService.Start();
+            OnPropertyChanged(nameof(ServerIP));
+        }
 
+        /// <summary>
+        /// Stops the server
+        /// </summary>
+        public void Stop()
+        {
+            Started = false;
+            _socketService.Stop();
+        }
+
+        /// <summary>
+        /// Gets called whenever a profile is added or removed. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ServerProfileManagerOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Profiles")
@@ -107,20 +139,11 @@ namespace Amnista.Models
             }
         }
 
-
-        public void Start()
-        {
-            Started = true;
-            _socketService.Start();
-            OnPropertyChanged(nameof(ServerIP));
-        }
-
-        public void Stop()
-        {
-            Started = false;
-            _socketService.Stop();
-        }
-
+        /// <summary>
+        /// Gets called wheenver a client disconnects
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SocketServiceOnClientDisconnected(object sender, ClientDisconnectedEventArgs e)
         {
             ClientProfile clientProfile = _serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint);
@@ -128,11 +151,21 @@ namespace Amnista.Models
            
         }
 
+        /// <summary>
+        /// Gets called whenever a message is received
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SocketServiceOnMessageReceived(object sender, ClientMessageReceivedEventArgs e)
         {
             ServerResponse = e.Message;
         }
 
+        /// <summary>
+        /// Gets called whenever socket update is received
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SocketServiceOnUpdateReceived(object sender, ClientUpdateReceivedEventArgs e)
         {
             ClientProfile client = _serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint);
@@ -142,13 +175,11 @@ namespace Amnista.Models
             client.Status = e.ClientProfile.Status;
         }
 
-
-        private void SocketServiceOnProfileUpdateReceived(object sender, ClientMessageReceivedEventArgs e)
-        {
-            ServerResponse = e.Message;
-        }
-
-
+        /// <summary>
+        /// Gets called whenever a client connected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SocketServiceOnClientConnected(object sender, ClientConnectedEventArgs e)
         {
             ClientProfile clientProfile = new ClientProfile();

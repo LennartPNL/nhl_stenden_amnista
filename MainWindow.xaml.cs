@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Amnista.Events;
 using Amnista.Events.client;
+using Amnista.Generic;
 using Amnista.Generic.client.Server.Commands;
 using Amnista.Models;
 
@@ -18,16 +19,17 @@ namespace Amnista
     public partial class MainWindow : Window
     {
         private bool _disableSidebarNavigation;
-        private ClientSocket _clientSocket;
+        public static ClientSocket ClientSocket { get; set; }
 
         public MainWindow()
         {
+            ClientSocket = new ClientSocket();
+
             InitializeComponent();
-            _clientSocket = new ClientSocket();
-            new Thread(()=> _clientSocket.StartClient()).Start();
-            this.MainFrame.Navigate(new HomeView(this), _clientSocket);
-            _clientSocket.VoteStarted += ClientSocketOnVoteStarted;
-            _clientSocket.VoteReceived += ClientSocketOnVoteReceived;
+            new Thread(() => ClientSocket.StartClient()).Start();
+            MainFrame.Navigate(new CoffeeVoteView(), ClientSocket);
+            ClientSocket.VoteStarted += ClientSocketOnVoteStarted;
+            ClientSocket.VoteReceived += ClientSocketOnVoteReceived;
         }
 
 
@@ -38,13 +40,10 @@ namespace Amnista
                 if (MessageBox.Show("Coffee time!", e.ClientProfile.Name + " started a coffee vote",
                     MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-
-                    _clientSocket.SendCommand("start_vote", new StartVoteCommand());
-                    this.MainFrame.Navigate(new WheelOfFortuneView(_clientSocket));
+                    ClientSocket.SendCommand("start_vote", new StartVoteCommand());
+                    this.MainFrame.Navigate(new WheelOfFortuneView(ClientSocket));
                 }
-
             });
-
         }
 
         private void ClientSocketOnVoteReceived(object sender, ClientVoteReceivedEventArgs e)
@@ -64,7 +63,7 @@ namespace Amnista
         {
             if (PagesList.SelectedValue is Object type)
             {
-                MainFrame?.Navigate(type, _clientSocket);
+                MainFrame?.NavigationService.Navigate(type, ClientSocket);
             }
         }
 

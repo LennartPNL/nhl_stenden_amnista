@@ -5,26 +5,34 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Amnista.Data_Types.Enums;
 using Amnista.Events;
 using Amnista.Events.client;
 using Amnista.Generic.client.Server.Commands;
 using Amnista.Generic.Server;
 using Amnista.Generic.Server.Commands;
+using Amnista.Models;
+using Amnista.View_Models;
 using Newtonsoft.Json;
 
-namespace Amnista.Models
+namespace Amnista.Generic
 {
+    /// <summary>
+    /// The ClientSocket handles all the socket communication for the client
+    /// </summary>
     public class ClientSocket
     {
         // Data buffer for incoming data.  
         byte[] bytes = new byte[1024];
         private Socket server;
-        private ClientProfile _ownProfile = new ClientProfile();
+        public bool IsRunning { get; set; }
 
+        /// <summary>
+        /// Connects the socket if possible
+        /// </summary>
         public void StartClient()
         {
-            // TODO: This needs to come from the settings page
-            IPEndPoint serverEp = new IPEndPoint(IPAddress.Parse("192.168.1.170"), 11000);
+            IPEndPoint serverEp = new IPEndPoint(IPAddress.Parse(Properties.Settings.Default.server_ip), 11000);
 
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             server.ReceiveTimeout = -1;
@@ -35,6 +43,7 @@ namespace Amnista.Models
                 try
                 {
                     server.Connect(serverEp);
+                    IsRunning = true;
                     new Thread(() => { HandleConnection(server); }).Start();
                 }
                 catch (Exception e)
@@ -45,36 +54,73 @@ namespace Amnista.Models
             }
         }
 
+        /// <summary>
+        /// Sends a message to the server
+        /// </summary>
+        /// <param name="message"></param>
         public void SendMessage(string message)
         {
-            const int maxMessageSize = 1024;
-            byte[] response;
-            int received;
             server.Send(Encoding.ASCII.GetBytes(message));
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Closes the connection
+        /// </summary>
         public void CloseConnection()
         {
-            server.Shutdown(SocketShutdown.Both);
-            server.Close();
+            if (IsRunning)
+            {
+                server.Shutdown(SocketShutdown.Both);
+                server.Close();
+                IsRunning = false;
+            }
         }
 
+        /// <summary>
+        /// Converts an object to json and adds a command to it. Once it's converted it will be sent to the server
+        /// </summary>
+        /// <param name="command">Command to send to the server</param>
+        /// <param name="payload">Object that should be sent to the server</param>
         public void SendCommand(string command, object payload)
         {
-            ServerCommand serverCommand = (ServerCommand) payload;
-            serverCommand.Command = command;
-            SendMessage(JsonConvert.SerializeObject(serverCommand));
+            if (IsRunning)
+            {
+                ServerCommand serverCommand = (ServerCommand) payload;
+                serverCommand.Command = command;
+                Debug.WriteLine(JsonConvert.SerializeObject(serverCommand));
+                SendMessage(JsonConvert.SerializeObject(serverCommand));
+            }
         }
 
+        /// <summary>
+        /// Start or participates in a vote round
+        /// </summary>
         public void Vote()
         {
             SendCommand("start_vote", new StartVoteCommand());
         }
 
+        /// <summary>
+        /// Reads the incoming socket bytes
+        /// </summary>
+        /// <param name="client"></param>
         void HandleConnection(Socket client)
         {
             Console.WriteLine("Connection with server () established!");
+
+            ClientProfile configInitClient = new ClientProfile
+            {
+                CoffeePoints = Properties.Settings.Default.user_coffeePoints,
+                DrinkPreference = new DrinkPreference()
+                {
+                    DrinkType = ClientProfileViewModel.ParseEnum<DrinkType>(Properties.Settings.Default.user_drinktype),
+                    WithMilk = Properties.Settings.Default.user_withmilk,
+                    WithSugar = Properties.Settings.Default.user_withsugar
+                },
+                Name = Properties.Settings.Default.user_name
+            };
+            MainWindow.ClientSocket.SendCommand("update", configInitClient);
 
             const int maxMessageSize = 1024;
             while (true)
@@ -99,7 +145,7 @@ namespace Amnista.Models
                 {
                     case "start_vote":
                         ClientVotedCommand votedClient1 = JsonConvert.DeserializeObject<ClientVotedCommand>(message);
-                        
+
                         VoteStartedEvent(new VoteStartedEventArgs(votedClient1.Client));
                         break;
                     case "client_voted":

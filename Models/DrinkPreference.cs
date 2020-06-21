@@ -2,6 +2,9 @@
 
 namespace Amnista.Models
 {
+    /// <summary>
+    /// Used to hold the drink preferences for a client
+    /// </summary>
     public class DrinkPreference
     {
         public DrinkType DrinkType { get; set; }

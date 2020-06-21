@@ -2,7 +2,7 @@
 
 namespace Amnista.Events
 {
-    class VoteReceivedEventArgs
+    public class VoteReceivedEventArgs
     {
         public Socket Client { get; set; }
 

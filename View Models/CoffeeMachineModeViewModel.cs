@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Amnista.Generic;
 using Amnista.Models;
 
@@ -10,90 +8,64 @@ namespace Amnista.View_Models
 {
     class CoffeeMachineModeViewModel : ObservableObject
     {
-        private readonly Server _server;
-        private string _serverResponse;
-        public List<ClientProfile> _clientProfiles = new List<ClientProfile>();
-
-
-        public string ServerResponse
-        {
-            get => _serverResponse;
-            set
-            {
-                _serverResponse = value;
-                OnPropertyChanged("ServerResponse");
-            }
-        }
-
-        public int ClientProfilesDidVote => _server.ClientProfilesDidVote;
-
-        public string ServerIP => (_server.Started) ? _server.ServerIP : "not started";
-
-        public int ClientsOnline => _server.ServerProfileManager.Profiles.Count == null
-            ? 0
-            : _server.ServerProfileManager.Profiles.Count;
-
-        public List<ClientProfile> ClientProfiles
-        {
-            get => _clientProfiles;
-            set
-            {
-                _clientProfiles = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool ServerEnabled
-        {
-            get => !_server.Started;
-        }
-
-        public CoffeeMachineModeViewModel()
-        {
-            _server = new Server();
-            _server.PropertyChanged += ServerOnPropertyChanged;
-        }
-
-
+        private CoffeeMachine _coffeeMachine;
+        public int ClientsOnline => _coffeeMachine.ClientsOnline;
+        public string ServerResponse => _coffeeMachine.ServerResponse;
+        public List<ClientProfile> ClientProfiles => _coffeeMachine.ClientProfiles;
+        public string ServerIP => _coffeeMachine.ServerIP;
+        public int ClientProfilesDidVote => _coffeeMachine.ClientProfilesDidVote;
+        public List<ClientProfile> VotedClients => _coffeeMachine.VotedClients;
+        public bool ServerEnabled => _coffeeMachine.ServerEnabled;
         public ICommand StartServerCommand => new Commander(StartServer);
 
-        public void StartServer()
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public CoffeeMachineModeViewModel()
         {
-            _server.Start();
+            _coffeeMachine = new CoffeeMachine();
+            _coffeeMachine.PropertyChanged += CoffeeMachineOnPropertyChanged;
         }
 
-        private void ServerOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        /// <summary>
+        /// Starts the server
+        /// </summary>
+        public void StartServer()
+        {
+            _coffeeMachine.StartServer();
+        }
+
+        /// <summary>
+        /// Gets called whenever a property in the coffeemachine mode gets changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CoffeeMachineOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(nameof(ClientsOnline));
 
             switch (e.PropertyName)
             {
                 case "ServerResponse":
-                    Application.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        ServerResponse = _server.ServerResponse;
-                        OnPropertyChanged();
-                    });
+                    OnPropertyChanged(nameof(ServerResponse));
                     break;
                 case "Profiles":
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        ClientProfiles.AddRange(_server.ServerProfileManager.Profiles);
-                        ClientProfiles.Reverse();
-                        OnPropertyChanged("ClientProfiles");
-                    });
+                    OnPropertyChanged(nameof(ClientProfiles));
                     break;
                 case nameof(ServerIP):
-                    Application.Current.Dispatcher.Invoke(() => { OnPropertyChanged(nameof(ServerIP)); });
+                    OnPropertyChanged(nameof(ServerIP));
                     break;
                 case nameof(ClientProfilesDidVote):
-                    Application.Current.Dispatcher.Invoke(() => { OnPropertyChanged(nameof(ClientProfilesDidVote)); });
+                    OnPropertyChanged(nameof(ClientProfilesDidVote));
+                    break;
+                case nameof(VotedClients):
+                    OnPropertyChanged(nameof(VotedClients));
                     break;
                 case nameof(ClientsOnline):
-                    Application.Current.Dispatcher.Invoke(() => { OnPropertyChanged(nameof(ClientsOnline)); });
+                    OnPropertyChanged(nameof(ClientsOnline));
                     break;
-                case nameof(_server.Started):
-                    Application.Current.Dispatcher.Invoke(() => { OnPropertyChanged(nameof(ServerEnabled)); });
+                case nameof(ServerEnabled):
+                    OnPropertyChanged(nameof(ServerEnabled));
                     break;
             }
         }

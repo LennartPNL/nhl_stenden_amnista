@@ -47,5 +47,14 @@
                 HorizontalAlignment="Right" VerticalAlignment="Top">
             Start server
         </Button>
+
+        <DataGrid Grid.Row="2" Grid.Column="1" ItemsSource="{Binding VotedClients}" DisplayMemberPath="Name" AutoGenerateColumns="False" IsManipulationEnabled="false">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Drink" Binding="{Binding DrinkPreference.DrinkType}"/>
+                <DataGridTextColumn Header="Milk" Binding="{Binding DrinkPreference.WithMilk}"/>
+                <DataGridTextColumn Header="Sugar" Binding="{Binding DrinkPreference.WithSugar}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>
