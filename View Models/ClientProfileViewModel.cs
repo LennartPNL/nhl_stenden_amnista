@@ -94,6 +94,7 @@ namespace Amnista.View_Models
                 OnPropertyChanged(nameof(CoffeePoints));
             }
         }
+
         public int OnlineUsers
         {
             get => _onlineUsers;
@@ -128,7 +129,7 @@ namespace Amnista.View_Models
             _clientProfile.DrinkPreference.WithMilk = _withMilk;
             _clientProfile.DrinkPreference.WithSugar = _withSugar;
             _clientProfile.CoffeePoints = _coffeePoints;
-            
+
             Properties.Settings.Default.user_name = _name;
             Properties.Settings.Default.user_status = _status.ToString();
             Properties.Settings.Default.user_drinktype = _drinkType.ToString();
@@ -136,6 +137,8 @@ namespace Amnista.View_Models
             Properties.Settings.Default.user_withsugar = _withSugar;
             Properties.Settings.Default.user_coffeePoints = _coffeePoints;
             Properties.Settings.Default.Save();
+
+            MainWindow.ClientSocket.SendCommand("update", _clientProfile);
         }
 
         public int GetCoffeePoints()

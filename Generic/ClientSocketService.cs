@@ -20,11 +20,12 @@ namespace Amnista.Models
         byte[] bytes = new byte[1024];
         private Socket server;
         private ClientProfile _ownProfile = new ClientProfile();
+        public bool IsRunning { get; set; }
 
         public void StartClient()
         {
-            // TODO: This needs to come from the settings page
-            IPEndPoint serverEp = new IPEndPoint(IPAddress.Parse("192.168.1.170"), 11000);
+            // TODO: This needs to come from the settings page and be updated on change
+            IPEndPoint serverEp = new IPEndPoint(IPAddress.Parse(Properties.Settings.Default.server_ip), 11000);
 
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             server.ReceiveTimeout = -1;
@@ -35,6 +36,7 @@ namespace Amnista.Models
                 try
                 {
                     server.Connect(serverEp);
+                    IsRunning = true;
                     new Thread(() => { HandleConnection(server); }).Start();
                 }
                 catch (Exception e)
@@ -56,15 +58,22 @@ namespace Amnista.Models
 
         public void CloseConnection()
         {
-            server.Shutdown(SocketShutdown.Both);
-            server.Close();
+            if (IsRunning)
+            {
+                server.Shutdown(SocketShutdown.Both);
+                server.Close();
+                IsRunning = false;
+            }
         }
 
         public void SendCommand(string command, object payload)
         {
-            ServerCommand serverCommand = (ServerCommand) payload;
-            serverCommand.Command = command;
-            SendMessage(JsonConvert.SerializeObject(serverCommand));
+            if (IsRunning)
+            {
+                ServerCommand serverCommand = (ServerCommand) payload;
+                serverCommand.Command = command;
+                SendMessage(JsonConvert.SerializeObject(serverCommand));
+            }
         }
 
         public void Vote()
@@ -99,7 +108,7 @@ namespace Amnista.Models
                 {
                     case "start_vote":
                         ClientVotedCommand votedClient1 = JsonConvert.DeserializeObject<ClientVotedCommand>(message);
-                        
+
                         VoteStartedEvent(new VoteStartedEventArgs(votedClient1.Client));
                         break;
                     case "client_voted":
