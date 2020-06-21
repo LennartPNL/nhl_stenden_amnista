@@ -19,4 +19,4 @@ Once you are all set up, you can check whether the clients have connected on the
 - The declared winner has to retrieve the ordered drinks, every users wishes will be shown on the server.
 
 
-![Amnista](https://github.com/LennartPNL/nhl_stenden_amnista/Resources/Amnista.png)
+![Amnista](https://github.com/LennartPNL/nhl_stenden_amnista/blob/develop/Resources/Amnista.png)
