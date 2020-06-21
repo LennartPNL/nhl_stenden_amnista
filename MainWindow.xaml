@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:Amnista"
         xmlns:local1="clr-namespace:Amnista.Views.Data"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Amnista" Height="450" Width="800">
     
     <Grid>
 

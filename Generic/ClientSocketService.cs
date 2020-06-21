@@ -5,11 +5,14 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Amnista.Data_Types.Enums;
 using Amnista.Events;
 using Amnista.Events.client;
 using Amnista.Generic.client.Server.Commands;
 using Amnista.Generic.Server;
 using Amnista.Generic.Server.Commands;
+using Amnista.Models;
+using Amnista.View_Models;
 using Newtonsoft.Json;
 
 namespace Amnista.Generic
@@ -105,6 +108,19 @@ namespace Amnista.Generic
         void HandleConnection(Socket client)
         {
             Console.WriteLine("Connection with server () established!");
+
+            ClientProfile configInitClient = new ClientProfile
+            {
+                CoffeePoints = Properties.Settings.Default.user_coffeePoints,
+                DrinkPreference = new DrinkPreference()
+                {
+                    DrinkType = ClientProfileViewModel.ParseEnum<DrinkType>(Properties.Settings.Default.user_drinktype),
+                    WithMilk = Properties.Settings.Default.user_withmilk,
+                    WithSugar = Properties.Settings.Default.user_withsugar
+                },
+                Name = Properties.Settings.Default.user_name
+            };
+            MainWindow.ClientSocket.SendCommand("update", configInitClient);
 
             const int maxMessageSize = 1024;
             while (true)

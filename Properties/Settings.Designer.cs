@@ -25,7 +25,7 @@ namespace Amnista.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Please enter a name")]
+        [global::System.Configuration.DefaultSettingValueAttribute("AmnistaUser")]
         public string user_name {
             get {
                 return ((string)(this["user_name"]));
@@ -97,7 +97,7 @@ namespace Amnista.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.178.1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
         public string server_ip {
             get {
                 return ((string)(this["server_ip"]));
