@@ -12,6 +12,7 @@ namespace Amnista.Generic
     public class VoteManager
     {
         private List<ClientProfile> _clientProfilesDidVote = new List<ClientProfile>();
+        private SocketService _socketService;
 
         private Timer _timer = new Timer(10000);
 
@@ -32,6 +33,7 @@ namespace Amnista.Generic
                         Winner = chosenClientProfile,
                         Clients = _clientProfilesDidVote
                     })));
+                
             });
             VoteEndedEvent(new VoteEndedEventArgs(chosenClientProfile)
             {

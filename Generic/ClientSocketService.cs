@@ -19,12 +19,10 @@ namespace Amnista.Models
         // Data buffer for incoming data.  
         byte[] bytes = new byte[1024];
         private Socket server;
-        private ClientProfile _ownProfile = new ClientProfile();
         public bool IsRunning { get; set; }
 
         public void StartClient()
         {
-            // TODO: This needs to come from the settings page and be updated on change
             IPEndPoint serverEp = new IPEndPoint(IPAddress.Parse(Properties.Settings.Default.server_ip), 11000);
 
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -49,9 +47,6 @@ namespace Amnista.Models
 
         public void SendMessage(string message)
         {
-            const int maxMessageSize = 1024;
-            byte[] response;
-            int received;
             server.Send(Encoding.ASCII.GetBytes(message));
             Console.WriteLine();
         }
@@ -72,6 +67,7 @@ namespace Amnista.Models
             {
                 ServerCommand serverCommand = (ServerCommand) payload;
                 serverCommand.Command = command;
+                Debug.WriteLine(JsonConvert.SerializeObject(serverCommand));
                 SendMessage(JsonConvert.SerializeObject(serverCommand));
             }
         }

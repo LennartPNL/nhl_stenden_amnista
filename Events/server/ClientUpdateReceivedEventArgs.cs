@@ -3,7 +3,7 @@ using Amnista.Models;
 
 namespace Amnista.Events
 {
-    class ClientUpdateReceivedEventArgs
+    public class ClientUpdateReceivedEventArgs
     {
         public Socket Client { get; set; }
         public ClientProfile ClientProfile { get; set; }

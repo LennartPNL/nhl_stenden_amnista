@@ -15,7 +15,7 @@ using VoteEndedEventArgs = Amnista.Events.VoteEndedEventArgs;
 
 namespace Amnista.Generic
 {
-    class SocketService
+    public class SocketService
     {
         private Thread _connectionThread;
         private readonly Socket _server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -113,6 +113,7 @@ namespace Amnista.Generic
                         UpdateReceivedEvent(new ClientUpdateReceivedEventArgs(client, clientProfile));
                         break;
                     case "start_vote":
+                        Debug.WriteLine("Server: received start_vote from " + client.RemoteEndPoint);
                         StartVoteReceivedEvent(new VoteReceivedEventArgs(client));
                         break;
                     case "end_vote":

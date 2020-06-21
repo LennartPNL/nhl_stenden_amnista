@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Amnista.Events;
 using Amnista.Generic;
 using Amnista.Models;
 
@@ -13,7 +15,7 @@ namespace Amnista.View_Models
         private readonly Server _server;
         private string _serverResponse;
         public List<ClientProfile> _clientProfiles = new List<ClientProfile>();
-
+        public List<ClientProfile> VotedClients { get; set; }
 
         public string ServerResponse
         {
@@ -52,6 +54,13 @@ namespace Amnista.View_Models
         {
             _server = new Server();
             _server.PropertyChanged += ServerOnPropertyChanged;
+            MainWindow.ClientSocket.VoteEnded += ClientSocketOnVoteEnded;
+        }
+
+        private void ClientSocketOnVoteEnded(object sender, VoteEndedEventArgs e)
+        {
+            VotedClients = e.Clients;
+            OnPropertyChanged(nameof(VotedClients));
         }
 
 

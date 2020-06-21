@@ -13,7 +13,7 @@ namespace Amnista.Models
     public class Server : INotifyPropertyChanged
     {
         private readonly SocketService _socketService;
-        private readonly VoteManager _voteManager = new VoteManager();
+        private readonly VoteManager _voteManager;
         private readonly ServerProfileManager _serverProfileManager;
         private bool _started = false;
 
@@ -53,6 +53,7 @@ namespace Amnista.Models
         {
             _serverProfileManager = new ServerProfileManager();
             _socketService = new SocketService();
+            _voteManager = new VoteManager();
             _socketService.ClientConnected += SocketServiceOnClientConnected;
             _socketService.MessageReceived += SocketServiceOnMessageReceived;
             _socketService.UpdateReceived += SocketServiceOnUpdateReceived;
@@ -77,17 +78,6 @@ namespace Amnista.Models
                     string clientVotedCommandSerialized = JsonConvert.SerializeObject(clientVotedCommand);
                     client.Socket.Send(Encoding.ASCII.GetBytes(clientVotedCommandSerialized));
                     
-                });
-            }
-            else
-            {
-                _serverProfileManager.Profiles.ForEach(client =>
-                {
-                    client.Socket.Send(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(new ClientVotedCommand()
-                    {
-                        Command = "client_voted",
-                        Client = votedClient
-                    })));
                 });
             }
 
@@ -120,7 +110,7 @@ namespace Amnista.Models
             Started = false;
             _socketService.Stop();
         }
-
+        
         private void SocketServiceOnClientDisconnected(object sender, ClientDisconnectedEventArgs e)
         {
             ClientProfile clientProfile = _serverProfileManager.FindClientProfileByIP(e.Client.RemoteEndPoint);

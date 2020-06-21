@@ -2,7 +2,7 @@
 
 namespace Amnista.Events
 {
-    class ClientDisconnectedEventArgs
+    public class ClientDisconnectedEventArgs
     {
         public Socket Client { get; set; }
 
